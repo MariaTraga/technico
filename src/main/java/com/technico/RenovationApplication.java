@@ -26,9 +26,10 @@ public class RenovationApplication {
 			e.printStackTrace();
 		}
 		
+		//Branch testing
 		System.out.println(property);
 		
-		JpaUtil.shutdown();		
+		JpaUtil.shutdown();		 
 		
 	}
 
