@@ -19,7 +19,6 @@ public class PropertyRepositoryImpl implements Repository<Property, String> {
 	}
 	
 	//DEPRECATED
-	
 	@Override
 	public Property create(Property domain) throws Exception {
 		String sql = """
