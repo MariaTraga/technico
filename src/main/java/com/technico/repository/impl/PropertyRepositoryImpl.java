@@ -1,55 +1,51 @@
 package com.technico.repository.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.technico.exception.PropertyException;
 import com.technico.model.Property;
 import com.technico.repository.Repository;
 
-public class PropertyRepositoryImpl implements Repository<Property, String> {
+import jakarta.persistence.EntityManager;
 
-	private final List<Property> listOfProperties;
-	private Connection connection;
+public class PropertyRepositoryImpl implements Repository<Property, Long> {
+
+	//TODO Refactor exceptions to custom exceptions
 	
-	public PropertyRepositoryImpl(Connection connection,List<Property> listOfProperties) {
-		this.connection = connection;
+	private final List<Property> listOfProperties;
+	private EntityManager entityManager;
+	
+	public PropertyRepositoryImpl(EntityManager entityManager, List<Property> listOfProperties) {
+		this.entityManager = entityManager;
+		//TODO Should remove list
 		this.listOfProperties = listOfProperties;
 	}
+
 	
-	//DEPRECATED
+	//TODO Refactor repository crud methods
 	
 	@Override
 	public Property create(Property domain) throws Exception {
-		String sql = """
-				insert into property (propertyId,
-				property_address,
-				year_of_construction,
-				property_type) values
-				(?,?,?,?)
-				""";
-		try(PreparedStatement prepareStatement = connection.prepareStatement(sql)){
-			prepareStatement.setString(1,domain.getPropertyIdNumber());
-			prepareStatement.setString(2, domain.getPropertyAddress());
-			prepareStatement.setString(3, domain.getYearOfConstruction());
-			prepareStatement.setString(4, domain.getPropertyType().toString());
-			prepareStatement.executeUpdate();
-			System.out.println("-- Created: "+ domain);
-		} catch (SQLException e) {
-			System.out.println("An error occured. Details: " + e.getMessage());
+		try {
+			entityManager.getTransaction().begin();
+			entityManager.persist(domain);
+			entityManager.getTransaction().commit();
 		}
-		listOfProperties.add(domain);
+		catch(Exception e) {
+			throw new PropertyException("Property has not been saved");
+		}
 		return domain;
 	}
 
 	@Override
-	public Property read(String id) throws Exception {
-		return listOfProperties.stream().filter(p->p.getPropertyIdNumber().equals(id)).findFirst().orElse(null);
+	public Property read(Long id) throws Exception {
+		return entityManager.find(Property.class, id);
 	}
 
 	@Override
 	public List<Property> readAll() throws Exception {
+		List<Property> listOfProperties = entityManager.createQuery("SELECT p FROM Property p",Property.class).getResultList();
 		return listOfProperties;
 	}
 
@@ -65,7 +61,8 @@ public class PropertyRepositoryImpl implements Repository<Property, String> {
 		return property;
 	}
 
-	public boolean delete(String id) throws Exception {
+	@Override
+	public boolean delete(Long id) throws Exception {
 		Property p = read(id);
 		return listOfProperties.remove(p);
 	}
