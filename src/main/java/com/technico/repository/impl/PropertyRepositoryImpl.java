@@ -22,7 +22,8 @@ public class PropertyRepositoryImpl implements Repository<Property, Long> {
 		this.listOfProperties = listOfProperties;
 	}
 
-	
+
+
 	//TODO Refactor repository crud methods
 	
 	@Override
