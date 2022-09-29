@@ -28,20 +28,12 @@ public class RenovationApplication {
 			e.printStackTrace();
 		}
 		
-		PropertyService ownerService = new PropertyService(entityManager);
-		Owner owner = new Owner("EW23464FED","Lalos","Lalakis","Thessaloniki","696954321","lalos@gmail.com","user_lalos53","@53lalos!",false);
-		
-		try {
-			ownerService.addOwner(owner);
-		} catch (OwnerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+
+		//Branch testing
 		System.out.println(property);
-		System.out.println(owner);
-		JpaUtil.shutdown();		
 		
+		JpaUtil.shutdown();		 
+
 	}
 
 }
