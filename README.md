@@ -1,2 +1,3 @@
 # technico
-A java CRUD backend application for a renovations company named Technico
+A java CRUD backend application for a renovations company named Technicon test
+
