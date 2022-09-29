@@ -3,6 +3,8 @@ package com.technico.model;
 import com.technico.enums.PropertyType;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,11 +16,12 @@ public class Property {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	private String propertyIdNumber;
 	private String propertyAddress;
 	private String yearOfConstruction;
+	@Enumerated(EnumType.STRING)
 	private PropertyType propertyType;	
 	private String ownerVAT;
 	//TODO Connect(?) foreign key
