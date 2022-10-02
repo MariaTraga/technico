@@ -1,15 +1,20 @@
 package com.technico.repository.impl;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.technico.model.Property;
 import com.technico.repository.PropertyRepository;
+
 import jakarta.persistence.EntityManager;
 
 public class PropertyRepositoryImpl extends DBRepositoryImpl<Property,Long> implements PropertyRepository  {
 
-	//TODO Refactor exceptions to custom exceptions
+	EntityManager entityManager;
 
 	public PropertyRepositoryImpl(EntityManager entityManager) {
 		 super(entityManager);
+		 this.entityManager = entityManager;
 	 }
 
 	@Override
@@ -21,6 +26,24 @@ public class PropertyRepositoryImpl extends DBRepositoryImpl<Property,Long> impl
 	public Class<Property> getEntityClass() {
 		return Property.class;
 	}
+	
+	public Optional<Property> readByIdNumber(String propertyIdNumber) {
+		Property property = entityManager
+				.createQuery("SELECT p from "+getEntityClassName()+" p WHERE p.propertyIdNumber = :propertyIdNumber"
+				,Property.class)
+				.setParameter("propertyIdNumber",propertyIdNumber)
+				.getSingleResult();
+		 
+		return property != null ? Optional.of(property) : Optional.empty();
+	}
 
-
+	public List<Property> readByOwnerVAT(String ownerVAT) {
+		List<Property> propertyList = entityManager
+				.createQuery("SELECT p from "+getEntityClassName()+" p WHERE p.owner.ownerVAT = :ownerVAT"
+				,Property.class)
+				.setParameter("ownerVAT",ownerVAT)
+				.getResultList();
+		 
+		return propertyList;
+	}
 }
