@@ -71,6 +71,7 @@ public class PropertyServiceImpl implements PropertyService {
 //		return resultList;
 //	}
 	
+	//Testing
 	public Property searchById(String input) throws PropertyException {
 		Optional<Property> propertyDb = propertyRepository.readByIdNumber(input);
 		if (propertyDb.isEmpty())
