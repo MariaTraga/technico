@@ -18,11 +18,12 @@ public class PropertyServiceImpl implements PropertyService {
 	}
 
 	@Override
-	public void addProperty(Property property) throws PropertyException {
+	public Property addProperty(Property property) throws PropertyException {
 
 		Optional<Property> propertyDb = propertyRepository.create(property);
 		if (propertyDb.isEmpty())
 			throw new PropertyException("The property has not been saved.");
+		return propertyDb.orElse(null);
 	}
 
 	@Override
@@ -36,16 +37,19 @@ public class PropertyServiceImpl implements PropertyService {
 	}
 
 	@Override
-	public void updateProperty(Property property) throws PropertyException {
+	public Property updateProperty(Property property) throws PropertyException {
 		Optional<Property> propertyDb = propertyRepository.update(property);
 		if (propertyDb.isEmpty())
 			throw new PropertyException("The property has not been updated.");
+		return propertyDb.orElse(null);
 	}
 
 	@Override
-	public void deleteProperty(Long id) throws PropertyException {
-		if (!propertyRepository.delete(id))
+	public boolean deleteProperty(Long id) throws PropertyException {
+		boolean deleted = propertyRepository.delete(id);
+		if (!deleted)
 			throw new PropertyException("The property could not be deleted.");
+		return deleted;
 	}
 
 //	public Property searchById(String input) throws PropertyException {
