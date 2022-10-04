@@ -1,11 +1,12 @@
 package com.technico;
 
 
-import com.technico.model.Owner;
-import com.technico.model.Property;
 import com.technico.enums.PropertyType;
 import com.technico.exception.OwnerException;
 import com.technico.exception.PropertyException;
+import com.technico.model.Owner;
+import com.technico.model.Property;
+import com.technico.service.OwnerService;
 import com.technico.service.PropertyService;
 import com.technico.util.JpaUtil;
 
@@ -27,13 +28,17 @@ public class RenovationApplication {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-
+		OwnerService ownerService = new OwnerService(entityManager);
+		Owner owner = new Owner("WOOF1234", "Jack", "Papajackopoulos", "Thessaloniki", "693425354", "jack@gmail.com", "jackson33", "1234", false);
+		try {
+			ownerService.addOwner(owner);
+		} catch (OwnerException e) {
+			e.printStackTrace();
+		}
 		//Branch testing
 		System.out.println(property);
-		
+		System.out.println(owner);
 		JpaUtil.shutdown();		 
 
 	}
-
 }

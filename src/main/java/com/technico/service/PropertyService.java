@@ -1,8 +1,7 @@
 package com.technico.service;
 
-import com.technico.model.Owner;
+
 import com.technico.model.Property;
-import com.technico.exception.OwnerException;
 import com.technico.exception.PropertyException;
 
 import jakarta.persistence.EntityManager;
@@ -43,15 +42,4 @@ public class PropertyService {
 	 * 
 	 * }
 	 */
-	public void addOwner(Owner owner) throws OwnerException {
-
-		// TODO To be moved to repository layer
-		try {
-			entityManager.getTransaction().begin();
-			entityManager.persist(owner);
-			entityManager.getTransaction().commit();
-		} catch (Exception e) {
-			throw new OwnerException("Owner has not been saved");
-		}
-	}
 }

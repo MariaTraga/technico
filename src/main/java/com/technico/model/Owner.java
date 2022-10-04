@@ -1,9 +1,12 @@
 package com.technico.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Owner {
@@ -21,8 +24,11 @@ public class Owner {
 	private String password;
 	private boolean deleted;
 
-	public Owner(String ownerVAT, String name, String surname, String address, String phoneNumber,
-			String email, String username, String password,boolean deleted ) {
+	@OneToMany(mappedBy = "owner")
+	private List<Property> property;
+
+	public Owner(String ownerVAT, String name, String surname, String address, String phoneNumber, String email,
+			String username, String password, boolean deleted) {
 		super();
 		this.ownerVAT = ownerVAT;
 		this.name = name;
@@ -109,6 +115,14 @@ public class Owner {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<Property> getProperty() {
+		return property;
+	}
+
+	public void setProperty(List<Property> property) {
+		this.property = property;
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package com.technico.repository.impl;
 import java.util.List;
 import java.util.Optional;
 
-import com.technico.model.Property;
 import com.technico.repository.Repository;
 
 import jakarta.persistence.EntityManager;
@@ -20,7 +19,6 @@ public abstract class DBRepositoryImpl<D, ID> implements Repository<D, ID> {
 
 	public abstract Class<D> getEntityClass();
 
-	@Override
 	public Optional<D> create(D entity) {
 		try {
 			entityManager.getTransaction().begin();
@@ -31,7 +29,7 @@ public abstract class DBRepositoryImpl<D, ID> implements Repository<D, ID> {
 			return Optional.empty();
 		}
 	}
-
+	
 	public Optional<D> read(ID id) {
 		D entity = entityManager.find(getEntityClass(), id);
 		return entity != null ? Optional.of(entity) : Optional.empty();
