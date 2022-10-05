@@ -17,7 +17,6 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 //@SQLDelete(sql = "UPDATE property SET deleted = true WHERE id = ?")
-
 @Where(clause = "deleted = false")
 public class Property {
 
@@ -33,6 +32,7 @@ public class Property {
 	private boolean deleted;
 	@ManyToOne
 	private Owner owner;
+
 	@Enumerated(EnumType.STRING)
 	private PropertyType propertyType;
 

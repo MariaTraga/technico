@@ -19,7 +19,6 @@ public abstract class DBRepositoryImpl<D, ID> implements Repository<D, ID> {
 
 	public abstract Class<D> getEntityClass();
 
-	@Override
 	public Optional<D> create(D entity) {
 		try {
 			entityManager.getTransaction().begin();
@@ -31,12 +30,11 @@ public abstract class DBRepositoryImpl<D, ID> implements Repository<D, ID> {
 			return Optional.empty();
 		}
 	}
-
+	
 	public Optional<D> read(ID id) {
 		D entity = entityManager.find(getEntityClass(), id);
 		return entity != null ? Optional.of(entity) : Optional.empty();
 	}
-
 	public List<D> readAll() {
 		List<D> listOfDomains = entityManager
 				.createQuery("SELECT d FROM " + getEntityClassName() + " d", getEntityClass()).getResultList();

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,13 +11,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
-@SQLDelete(sql = "UPDATE owner SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class Owner {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-
+	
 	private String ownerVAT;
 	private String name;
 	private String surname;
@@ -28,19 +26,14 @@ public class Owner {
 	private String username;
 	private String password;
 	private boolean deleted;
-	
-	
-	@OneToMany(mappedBy="owner")
+
+	@OneToMany(mappedBy = "owner")
 	private List<Property> property;
 
-	@OneToMany(mappedBy="owner")
-	private List<PropertyRepair> propertyRepair;
-
-	
-
-	public Owner(String ownerVAT, String name, String surname, String address, String phoneNumber,
-			String email, String username, String password,boolean deleted ) {
+	public Owner(String ownerVAT, String name, String surname, String address,
+			String phoneNumber, String email, String username, String password, boolean deleted, List<Property> property) {
 		super();
+
 		this.ownerVAT = ownerVAT;
 		this.name = name;
 		this.surname = surname;
@@ -50,6 +43,7 @@ public class Owner {
 		this.username = username;
 		this.password = password;
 		this.deleted = deleted;
+    this.property = property;
 	}
 
 	public Owner() {
@@ -128,29 +122,14 @@ public class Owner {
 		this.password = password;
 	}
 	
-
 	public List<Property> getProperty() {
 		return property;
 	}
 
-	public void setRepair(List<Property> property) {
+	public void setProperty(List<Property> property) {
 		this.property = property;
-	}
-
-	public List<PropertyRepair> getPropertyRepair() {
-		return propertyRepair;
-	}
-
-	public void setPropertyRepair(List<PropertyRepair> propertyRepair) {
-		this.propertyRepair = propertyRepair;
-	}
-	@Override
-	public String toString() {
-		return "Owner [id=" + id + ", ownerVAT=" + ownerVAT + ", name=" + name + ", surname=" + surname + ", address="
-				+ address + ", phoneNumber=" + phoneNumber + ", email=" + email + ", username=" + username
-				+ ", password=" + password + "]";
-	}
-
+  }
+	
 	public boolean isDeleted() {
 		return deleted;
 	}
@@ -158,4 +137,13 @@ public class Owner {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
+	
+	@Override
+	public String toString() {
+		return "Owner [id=" + id + ", ownerVAT=" + ownerVAT + ", name=" + name
+				+ ", surname=" + surname + ", address=" + address + ", phoneNumber=" + phoneNumber + ", email=" + email
+				+ ", username=" + username + ", password=" + password + ", deleted=" + deleted + ", property="
+				+ property + "]";
+	}
+
 }

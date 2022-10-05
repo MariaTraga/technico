@@ -1,6 +1,5 @@
 package com.technico;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,9 +7,11 @@ import com.technico.enums.PropertyType;
 import com.technico.exception.PropertyException;
 import com.technico.model.Owner;
 import com.technico.model.Property;
+
 import com.technico.repository.impl.PropertyRepositoryImpl;
 import com.technico.service.impl.PropertyServiceImpl;
 import com.technico.util.GeneralUtility;
+
 import com.technico.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 
@@ -25,7 +26,6 @@ public class RenovationApplication {
 		PropertyRepositoryImpl propertyRepository = new PropertyRepositoryImpl(entityManager);
 		PropertyServiceImpl propertyService = new PropertyServiceImpl(propertyRepository);
 		
-
 		Owner owner = new Owner("09121212", "John", "Doe", "Athens", "2109999999","john@mail.com", "john", "1234",false);
 		owner.setId(1l);
 		Owner owner2 = new Owner("09121213", "John", "Doe", "Athens", "2109999999","johnie@mail.com", "john", "1234",false);
@@ -55,6 +55,9 @@ public class RenovationApplication {
 			//e.printStackTrace();
 		}
 		
+		Owner owner = new Owner("WOOF1234", "Jack", "Papajackopoulos", "Thessaloniki", "693425354", "jack@gmail.com", "jackson33", "1234", false);
+		Owner owner1 = new Owner("ASDASD123", "Rick", "Rickpoulos", "Athina", "23423523", "Rick@gmail.com", "Rickson66", "4321", false);
+		Owner owner2 = new Owner("XNZ66RT69", "Fror", "Froreridis", "Patra", "694523452", "Fror@gmail.com", "Frorson66", "2314", false);
 
 //		try {
 //			propertyService.deleteProperty(property3.getId());
@@ -64,9 +67,6 @@ public class RenovationApplication {
 //			e.printStackTrace();
 //		}
 
-		
-		JpaUtil.shutdown();		 
-
+		JpaUtil.shutdown();
 	}
-
 }
