@@ -184,6 +184,7 @@ public class PropertyServiceImplTest {
 		assertAll(() -> {
 			Property searchedProperty = propertyService.searchById(property1.getPropertyIdNumber());
 			searchedProperty.setPropertyAddress("NEW-ADDRESS "+Math.round(Math.floor(Math.random() * (10))));
+			searchedProperty.setPropertyType(PropertyType.DETACHED);
 			Property updatedProperty = propertyService.updateProperty(searchedProperty);
 			assertEquals(updatedProperty.getId(), searchedProperty.getId(), "Property ids do not match, search failed.");
 			assertEquals(updatedProperty.getPropertyAddress(), searchedProperty.getPropertyAddress(),

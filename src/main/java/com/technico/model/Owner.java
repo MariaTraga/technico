@@ -3,8 +3,8 @@ package com.technico.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,9 +29,7 @@ public class Owner {
 	private boolean deleted;
 
 	@OneToMany(mappedBy = "owner")
-    private List<Property> property = new ArrayList<>();
-
-
+	private List<Property> property = new ArrayList<>();
 
    public Owner(String ownerVAT, String name, String surname, String address,
             String phoneNumber, String email, String username, String password, boolean deleted, List<Property> property) {
