@@ -10,6 +10,7 @@ import com.technico.model.Owner;
 import com.technico.model.Property;
 import com.technico.repository.impl.PropertyRepositoryImpl;
 import com.technico.service.impl.PropertyServiceImpl;
+import com.technico.util.GeneralUtility;
 import com.technico.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 
@@ -33,9 +34,9 @@ public class RenovationApplication {
 		Property property3 = new Property("123857","Athens","2003",PropertyType.APARTMENT, owner2,false);
 		
 		try {
-//			propertyService.addProperty(property);
-//			propertyService.addProperty(property2);
-//			propertyService.addProperty(property3);
+			for(Property p : GeneralUtility.createPropertyDataDemonstration()) {
+				propertyService.addProperty(p);
+			}
 		} catch (Exception e) {
 			logger.error("Something went wrong. Details: {}",e.getMessage(),e);
 			//e.printStackTrace();
