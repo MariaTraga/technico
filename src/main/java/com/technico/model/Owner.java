@@ -1,11 +1,19 @@
 package com.technico.model;
 
+import java.util.List;
+
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
+@SQLDelete(sql = "UPDATE owner SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Owner {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +28,15 @@ public class Owner {
 	private String username;
 	private String password;
 	private boolean deleted;
+	
+	
+	@OneToMany(mappedBy="owner")
+	private List<Property> property;
+
+	@OneToMany(mappedBy="owner")
+	private List<PropertyRepair> propertyRepair;
+
+	
 
 	public Owner(String ownerVAT, String name, String surname, String address, String phoneNumber,
 			String email, String username, String password,boolean deleted ) {
@@ -110,7 +127,23 @@ public class Owner {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 
+	public List<Property> getProperty() {
+		return property;
+	}
+
+	public void setRepair(List<Property> property) {
+		this.property = property;
+	}
+
+	public List<PropertyRepair> getPropertyRepair() {
+		return propertyRepair;
+	}
+
+	public void setPropertyRepair(List<PropertyRepair> propertyRepair) {
+		this.propertyRepair = propertyRepair;
+	}
 	@Override
 	public String toString() {
 		return "Owner [id=" + id + ", ownerVAT=" + ownerVAT + ", name=" + name + ", surname=" + surname + ", address="

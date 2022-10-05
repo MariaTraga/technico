@@ -19,18 +19,25 @@ public class RenovationApplication {
 		EntityManager entityManager = JpaUtil.getEntityManager();
 		
 		PropertyService propertyService = new PropertyService(entityManager);
-		Property property = new Property("123456","Athens","2002",PropertyType.APARTMENT,"111111",2,false);
+		Owner owner = new Owner("09121212", "John", "Doe", "Athens", "2109999999","john@mail.com", "john", "1234",false);
+		owner.setId(1l);
+		Owner owner2 = new Owner("09121213", "John", "Doe", "Athens", "2109999999","johnie@mail.com", "john", "1234",false);
+		owner2.setId(2l);
+		
+		Property property = new Property();
+		Property property2 = new Property();
+		Property property3 = new Property();
 		
 		try {
-			propertyService.addProperty(property);
+			//propertyService.addProperty(property);
+			//propertyService.addProperty(property2);
+			propertyService.addProperty(property3);
 		} catch (PropertyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
+			//e.printStackTrace();
 		}
 		
-
-		//Branch testing
-		System.out.println(property);
+		
 		
 		JpaUtil.shutdown();		 
 

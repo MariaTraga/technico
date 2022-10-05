@@ -1,5 +1,10 @@
 package com.technico.model;
 
+import java.util.List;
+
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import com.technico.enums.PropertyType;
 
 import jakarta.persistence.Entity;
@@ -8,93 +13,109 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
+@SQLDelete(sql = "UPDATE property SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Property {
-	
-	//TODO Add owner foreign key
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String propertyIdNumber;
 	private String propertyAddress;
 	private String yearOfConstruction;
-	@Enumerated(EnumType.STRING)
-	private PropertyType propertyType;	
-	private String ownerVAT;
-	//TODO Connect(?) foreign key
-	private long ownerId;
-	
 	private boolean deleted;
+	@ManyToOne
+	private Owner owner;
+	@Enumerated(EnumType.STRING)
+	private PropertyType propertyType;
+
 	
-	public String getPropertyIdNumber() {
-		return propertyIdNumber;
-	}
-	public void setPropertyIdNumber(String propertyId) {
-		this.propertyIdNumber = propertyId;
-	}
-	public String getPropertyAddress() {
-		return propertyAddress;
-	}
-	public void setPropertyAddress(String propertyAddress) {
+
+	public Property(Long id, String propertyIdNumber, String propertyAddress, String yearOfConstruction,
+			boolean deleted, Owner owner, PropertyType propertyType) {
+		super();
+		this.id = id;
+		this.propertyIdNumber = propertyIdNumber;
 		this.propertyAddress = propertyAddress;
-	}
-	public String getYearOfConstruction() {
-		return yearOfConstruction;
-	}
-	public void setYearOfConstruction(String yearOfConstruction) {
 		this.yearOfConstruction = yearOfConstruction;
-	}
-	public PropertyType getPropertyType() {
-		return propertyType;
-	}
-	public void setPropertyType(PropertyType propertyType) {
-		this.propertyType = propertyType;
-	}
-	public String getOwnerVAT() {
-		return ownerVAT;
-	}
-	public void setOwnerVAT(String ownerVAT) {
-		this.ownerVAT = ownerVAT;
-	}
-	public boolean isDeleted() {
-		return deleted;
-	}
-	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
-	}
-	
-	public long getOwnerId() {
-		return ownerId;
-	}
-	public void setOwnerId(long ownerId) {
-		this.ownerId = ownerId;
+		this.owner = owner;
+		this.propertyType = propertyType;
+		
 	}
 
-	public Property(String propertyId, String propertyAddress, String yearOfConstruction, PropertyType propertyType,
-			String ownerVAT,long ownerId, boolean deleted ) {
-		super();
-		this.propertyIdNumber = propertyId;
-		this.propertyAddress = propertyAddress;
-		this.yearOfConstruction = yearOfConstruction;
-		this.propertyType = propertyType;
-		this.ownerVAT = ownerVAT;
-		this.ownerId = ownerId;
-		this.deleted = deleted;
-	}
 	public Property() {
 		super();
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getPropertyIdNumber() {
+		return propertyIdNumber;
+	}
+
+	public void setPropertyIdNumber(String propertyIdNumber) {
+		this.propertyIdNumber = propertyIdNumber;
+	}
+
+	public String getPropertyAddress() {
+		return propertyAddress;
+	}
+
+	public void setPropertyAddress(String propertyAddress) {
+		this.propertyAddress = propertyAddress;
+	}
+
+	public String getYearOfConstruction() {
+		return yearOfConstruction;
+	}
+
+	public void setYearOfConstruction(String yearOfConstruction) {
+		this.yearOfConstruction = yearOfConstruction;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public Owner getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Owner owner) {
+		this.owner = owner;
+	}
+
+	public PropertyType getPropertyType() {
+		return propertyType;
+	}
+
+	public void setPropertyType(PropertyType propertyType) {
+		this.propertyType = propertyType;
+	}
+
 	
+
 	@Override
 	public String toString() {
-		return "Property [id=" + id + ", propertyId=" + propertyIdNumber + ", propertyAddress=" + propertyAddress
-				+ ", yearOfConstruction=" + yearOfConstruction + ", propertyType=" + propertyType + ", ownerVAT="
-				+ ownerVAT + "]";
+		return "Property [id=" + id + ", propertyIdNumber=" + propertyIdNumber + ", propertyAddress=" + propertyAddress
+				+ ", yearOfConstruction=" + yearOfConstruction + ", owner=" + owner + ", propertyType=" + propertyType
+				+ "]";
 	}
-	
-	
-		
+
 }

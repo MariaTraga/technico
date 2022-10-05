@@ -3,7 +3,6 @@ package com.technico.repository.impl;
 import java.util.List;
 import java.util.Optional;
 
-import com.technico.model.Property;
 import com.technico.repository.Repository;
 
 import jakarta.persistence.EntityManager;
