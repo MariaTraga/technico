@@ -27,14 +27,16 @@ public class PropertyRepositoryImpl extends DBRepositoryImpl<Property, Long> imp
 		return Property.class;
 	}
 
+	@Override
 	public Optional<Property> readByIdNumber(String propertyIdNumber) {
-		Property property = entityManager.createQuery(
+		List<Property> propertyList = entityManager.createQuery(
 				"SELECT p from " + getEntityClassName() + " p WHERE p.propertyIdNumber = :propertyIdNumber",
-				Property.class).setParameter("propertyIdNumber", propertyIdNumber).getSingleResult();
-
-		return property != null ? Optional.of(property) : Optional.empty();
+				Property.class).setParameter("propertyIdNumber", propertyIdNumber).getResultList();
+		
+		return propertyList != null ? propertyList.stream().findFirst() : Optional.empty();
 	}
 
+	@Override
 	public List<Property> readByOwnerVAT(String ownerVAT) {
 		List<Property> propertyList = entityManager
 				.createQuery("SELECT p from " + getEntityClassName() + " p WHERE p.owner.ownerVAT = :ownerVAT",
@@ -44,10 +46,7 @@ public class PropertyRepositoryImpl extends DBRepositoryImpl<Property, Long> imp
 		return propertyList;
 	}
 
-//	public boolean deletePermanent(Long id) {
-//		return 
-//	}
-
+	@Override
 	public boolean deleteSafe(Long id) {
 		Property property = read(id).orElse(null);
 		property.setDeleted(true);

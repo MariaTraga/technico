@@ -28,6 +28,7 @@ public class PropertyServiceImpl implements PropertyService {
 
 	@Override
 	public List<Property> displayAllProperties() {
+		List<Property> list = propertyRepository.readAll();
 		return propertyRepository.readAll();
 	}
 
@@ -51,21 +52,21 @@ public class PropertyServiceImpl implements PropertyService {
 			throw new PropertyException("The property could not be deleted.");
 		return deleted;
 	}
-	
+
 	public Property searchById(String input) throws PropertyException {
 		Optional<Property> propertyDb = propertyRepository.readByIdNumber(input);
 		if (propertyDb.isEmpty())
-			throw new PropertyException("The property with id " +input+ " could not be found.");
+			throw new PropertyException("The property with id " + input + " could not be found.");
 		return propertyDb.get();
 	}
 
 	public List<Property> searchByVAT(String input) throws PropertyException {
 		List<Property> listOfProperties = propertyRepository.readByOwnerVAT(input);
-		if(listOfProperties.isEmpty())
-			throw new PropertyException("The properties with owner VAT " +input+ " could not be found.");
+		if (listOfProperties == null || listOfProperties.isEmpty())
+			throw new PropertyException("The properties with owner VAT " + input + " could not be found.");
 		return listOfProperties;
 	}
-	
+
 	public boolean deleteSafeProperty(Long id) throws PropertyException {
 		boolean deleted = propertyRepository.deleteSafe(id);
 		if (!deleted)

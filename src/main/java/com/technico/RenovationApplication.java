@@ -31,8 +31,8 @@ public class RenovationApplication {
 		Property property3 = new Property("123857","Athens","2003",PropertyType.APARTMENT, owner2,false);
 		
 		try {
-			//propertyService.addProperty(property);
-			//propertyService.addProperty(property2);
+			propertyService.addProperty(property);
+			propertyService.addProperty(property2);
 			propertyService.addProperty(property3);
 		} catch (PropertyException e) {
 			System.out.println(e.getMessage());
@@ -40,19 +40,20 @@ public class RenovationApplication {
 		}
 		
 		try {
+			System.out.println("HERE");
 			System.out.println("Hey hey! "+propertyService.searchByVAT(owner.getOwnerVAT()).stream().findFirst());
 		} catch (PropertyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		try {
-			propertyService.deleteProperty(property3.getId());
-			//System.out.println("Hello! "+propertyService.displayProperty(9l));
-		} catch (PropertyException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
+//		try {
+//			propertyService.deleteProperty(property3.getId());
+//			//System.out.println("Hello! "+propertyService.displayProperty(9l));
+//		} catch (PropertyException e) {
+//			System.out.println(e.getMessage());
+//			e.printStackTrace();
+//		}
 		
 		JpaUtil.shutdown();		 
 
