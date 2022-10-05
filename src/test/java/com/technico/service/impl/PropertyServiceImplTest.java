@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -19,7 +20,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.technico.enums.PropertyType;
-import com.technico.exception.PropertyException;
 import com.technico.model.Owner;
 import com.technico.model.Property;
 import com.technico.repository.impl.PropertyRepositoryImpl;
@@ -85,11 +85,7 @@ public class PropertyServiceImplTest {
 			Property savedProperty = propertyService.addProperty(property);
 			assertTrue(savedProperty.getId() > 0,
 					"Property not saved, duplicate property id number or no owner id present.");
-		});
-//		} catch (PropertyException e) {
-//			e.printStackTrace();
-//			System.out.println(e.getMessage());
-//		}			
+		});	
 
 	}
 
@@ -136,14 +132,29 @@ public class PropertyServiceImplTest {
 		});
 	}
 
+	
 	@Test
 	@Order(4)
-	@DisplayName("Test database delete function.")
+	@DisplayName("Test database safe delete function.")
+	void deleteSafeProperty() {
+		assertAll(() -> {
+			Property searchedProperty = propertyService.searchById(propertyIdNumber.toString());
+			boolean deleted = propertyService.deleteSafeProperty(searchedProperty.getId());
+			assertTrue(deleted, "Property was not deleted successfully.");
+		});
+	}
+	
+	@Test
+	@Disabled
+	@Order(5)
+	@DisplayName("Test database permanent delete function.")
 	void deleteProperty() {
 		assertAll(() -> {
 			Property searchedProperty = propertyService.searchById(propertyIdNumber.toString());
 			boolean deleted = propertyService.deleteProperty(searchedProperty.getId());
+			
 			assertTrue(deleted, "Property was not deleted successfully.");
+			//assertThrows(NoResultException.class,()->{propertyService.searchById(propertyIdNumber.toString());});
 		});
 	}
 

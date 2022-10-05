@@ -51,31 +51,7 @@ public class PropertyServiceImpl implements PropertyService {
 			throw new PropertyException("The property could not be deleted.");
 		return deleted;
 	}
-
-//	public Property searchById(String input) throws PropertyException {
-//		List<Property> listOfProperties = propertyRepository.readAll();
-//		Property property = listOfProperties
-//				.stream()
-//				.filter(d->d.getPropertyIdNumber().equals(input))
-//				.findFirst()
-//				.orElse(null);
-//		if(property == null)
-//			throw new PropertyException("The property with id " +input+ " could not be found.");		
-//		return property;	
-//	}
-//
-//	public List<Property> searchByVAT(String input) throws PropertyException {
-//		List<Property> listOfProperties = propertyRepository.readAll();
-//		List<Property> resultList = listOfProperties
-//				.stream()
-//				.filter(d->d.getOwner().getOwnerVAT().equals(input))
-//				.collect(Collectors.toList());
-//		if(resultList.isEmpty())
-//			throw new PropertyException("The properties with owner VAT " +input+ " could not be found.");		
-//		return resultList;
-//	}
 	
-	//Testing
 	public Property searchById(String input) throws PropertyException {
 		Optional<Property> propertyDb = propertyRepository.readByIdNumber(input);
 		if (propertyDb.isEmpty())
@@ -88,6 +64,13 @@ public class PropertyServiceImpl implements PropertyService {
 		if(listOfProperties.isEmpty())
 			throw new PropertyException("The properties with owner VAT " +input+ " could not be found.");
 		return listOfProperties;
+	}
+	
+	public boolean deleteSafeProperty(Long id) throws PropertyException {
+		boolean deleted = propertyRepository.deleteSafe(id);
+		if (!deleted)
+			throw new PropertyException("The property could not be deleted.");
+		return deleted;
 	}
 
 }
