@@ -1,22 +1,24 @@
 package com.technico;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.technico.enums.PropertyType;
 import com.technico.exception.PropertyException;
 import com.technico.model.Owner;
 import com.technico.model.Property;
-import com.technico.repository.PropertyRepository;
 import com.technico.repository.impl.PropertyRepositoryImpl;
 import com.technico.service.impl.PropertyServiceImpl;
 import com.technico.util.JpaUtil;
-
 import jakarta.persistence.EntityManager;
 
 public class RenovationApplication {
-	//Branch testing
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
+	private static final Logger logger = LoggerFactory.getLogger(RenovationApplication.class);
+	
+	public static void main(String[] args) {
+		
 		EntityManager entityManager = JpaUtil.getEntityManager();
 		
 		PropertyRepositoryImpl propertyRepository = new PropertyRepositoryImpl(entityManager);
@@ -31,17 +33,19 @@ public class RenovationApplication {
 		Property property3 = new Property("123857","Athens","2003",PropertyType.APARTMENT, owner2,false);
 		
 		try {
-			propertyService.addProperty(property);
-			propertyService.addProperty(property2);
-			propertyService.addProperty(property3);
-		} catch (PropertyException e) {
-			System.out.println(e.getMessage());
+//			propertyService.addProperty(property);
+//			propertyService.addProperty(property2);
+//			propertyService.addProperty(property3);
+		} catch (Exception e) {
+			logger.error("Something went wrong. Details: {}",e.getMessage(),e);
 			//e.printStackTrace();
 		}
 		
 		try {
-			System.out.println("HERE");
-			System.out.println("Hey hey! "+propertyService.searchByVAT(owner.getOwnerVAT()).stream().findFirst());
+			Property searchedProperty = propertyService.searchByVAT(owner.getOwnerVAT()).stream().findFirst().orElse(null);
+			logger.info("Searched property by owner VAT was found, first entry has id: {} -- property id number: {}"
+					,searchedProperty.getId()
+					,searchedProperty.getPropertyIdNumber());
 		} catch (PropertyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
