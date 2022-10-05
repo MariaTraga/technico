@@ -3,10 +3,12 @@ package com.technico.util;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.PersistenceUnit;
 
 public class JpaUtil {
 
 	private static final String PERSISTENCE_UNIT_NAME = "Persistence";
+	@PersistenceUnit(unitName=PERSISTENCE_UNIT_NAME)
 	private static EntityManagerFactory factory;
 	
 	public static EntityManagerFactory getEntityManagerFactory() {
@@ -16,6 +18,7 @@ public class JpaUtil {
 		return factory;
 	}
 	
+	@PersistenceUnit(unitName=PERSISTENCE_UNIT_NAME)
 	public static EntityManager getEntityManager() {
 		return getEntityManagerFactory().createEntityManager();
 	}
