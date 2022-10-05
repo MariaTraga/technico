@@ -1,45 +1,14 @@
 package com.technico.service;
 
+import java.util.List;
 
-import com.technico.model.Property;
 import com.technico.exception.PropertyException;
+import com.technico.model.Property;
 
-import jakarta.persistence.EntityManager;
-
-//TODO Make an interface
-public class PropertyService {
-
-	private EntityManager entityManager;
-
-	public PropertyService(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
-
-	/*
-	 * public Property searchById(String input) throws Exception { return
-	 * propertyRepository.read(input); }
-	 * 
-	 * public Property searchByVAT(String input) throws Exception { Property
-	 * property =
-	 * propertyRepository.readAll().stream().filter(p->p.getOwnerVAT().equals(input)
-	 * ).findFirst().orElse(null); return property; }
-	 */
-
-	public void addProperty(Property property) throws PropertyException {
-
-		// TODO To be moved to repository layer
-		try {
-			entityManager.getTransaction().begin();
-			entityManager.persist(property);
-			entityManager.getTransaction().commit();
-		} catch (Exception e) {
-			throw new PropertyException("Property has not been saved");
-		}
-	}
-
-	/*
-	 * public List<Property> displayProperty(){
-	 * 
-	 * }
-	 */
+public interface PropertyService {
+	Property addProperty(Property property) throws PropertyException;
+	List<Property> displayAllProperties() throws PropertyException;
+	Property displayProperty(Long id) throws PropertyException;
+	Property updateProperty(Property property) throws PropertyException;
+	boolean deleteProperty(Long id) throws PropertyException;
 }

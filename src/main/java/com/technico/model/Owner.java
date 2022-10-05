@@ -2,6 +2,8 @@ package com.technico.model;
 
 import java.util.List;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,13 +11,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
+@Where(clause = "deleted = false")
 public class Owner {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	
-
 	private String ownerVAT;
 	private String name;
 	private String surname;
@@ -30,7 +31,7 @@ public class Owner {
 	private List<Property> property;
 
 	public Owner(String ownerVAT, String name, String surname, String address,
-			String phoneNumber, String email, String username, String password, boolean deleted) {
+			String phoneNumber, String email, String username, String password, boolean deleted, List<Property> property) {
 		super();
 
 		this.ownerVAT = ownerVAT;
@@ -42,6 +43,7 @@ public class Owner {
 		this.username = username;
 		this.password = password;
 		this.deleted = deleted;
+    this.property = property;
 	}
 
 	public Owner() {
@@ -119,17 +121,15 @@ public class Owner {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	
 	public List<Property> getProperty() {
 		return property;
 	}
 
 	public void setProperty(List<Property> property) {
 		this.property = property;
-	}
+  }
 	
-
-
 	public boolean isDeleted() {
 		return deleted;
 	}

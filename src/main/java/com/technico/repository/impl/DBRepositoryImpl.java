@@ -26,6 +26,7 @@ public abstract class DBRepositoryImpl<D, ID> implements Repository<D, ID> {
 			entityManager.getTransaction().commit();
 			return Optional.of(entity);
 		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
 			return Optional.empty();
 		}
 	}
@@ -47,6 +48,7 @@ public abstract class DBRepositoryImpl<D, ID> implements Repository<D, ID> {
 			entityManager.getTransaction().commit();
 			return Optional.of(entity);
 		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
 			return Optional.empty();
 		}
 	}
@@ -59,6 +61,7 @@ public abstract class DBRepositoryImpl<D, ID> implements Repository<D, ID> {
 				entityManager.remove(entity);
 				entityManager.getTransaction().commit();
 			} catch (Exception e) {
+				entityManager.getTransaction().rollback();
 				return false;
 			}
 			return true;

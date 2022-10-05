@@ -1,0 +1,35 @@
+<Configuration status="WARN">
+	<Properties>
+		<Property name="LOG_PATTERN">
+		  %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level ${hostName} - [%15.15t] %-30.30c{1.} : %m%n%ex
+		</Property>
+	</Properties>
+
+
+	<Appenders>
+		<Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+		</Console>
+
+		<RollingRandomAccessFile name="RollingRandomAccessFileAppender" fileName="logs/log-renovation.log" filePattern="logs/log-example--%d{yyyy-MM-dd}.zip">
+			<PatternLayout>
+				<Pattern>${LOG_PATTERN}</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+			<DefaultRolloverStrategy>
+				<Delete basePath="logs">
+					<IfLastModified age="30d" />
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingRandomAccessFile>
+	</Appenders>
+
+	<Loggers>
+		<Root level="INFO">
+			<AppenderRef ref="ConsoleAppender" />
+			<AppenderRef ref="RollingRandomAccessFileAppender" />
+		</Root>
+	</Loggers>
+</Configuration>

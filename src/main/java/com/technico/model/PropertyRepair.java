@@ -1,13 +1,22 @@
 package com.technico.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.sql.Date;
+
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import com.technico.enums.RepairType;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+
+@Entity
+@SQLDelete(sql = "UPDATE propertyRepair SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 
 public class PropertyRepair {
 	
@@ -15,14 +24,15 @@ public class PropertyRepair {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
-	
-	
-	private LocalDateTime repairDate;
+	@ManyToOne
+	private Owner owner;
+	@ManyToOne 
+	private Property property;
+	private Date repairDate;
 	private String shortDescription;
 	private RepairType repairType;
 	private BigDecimal repairCost;
-	private Owner owner;
-	private Property property;
+	
 	private String description;
 	
 	private boolean deleted;
@@ -35,11 +45,11 @@ public class PropertyRepair {
 		this.id = id;
 	}
 
-	public LocalDateTime getRepairDate() {
+	public Date getRepairDate() {
 		return repairDate;
 	}
 
-	public void setRepairDate(LocalDateTime repairDate) {
+	public void setRepairDate(Date repairDate) {
 		this.repairDate = repairDate;
 	}
 
@@ -99,7 +109,7 @@ public class PropertyRepair {
 		this.deleted = deleted;
 	}
 
-	public PropertyRepair(long id, LocalDateTime repairDate, String shortDescription, RepairType repairType,
+	public PropertyRepair(long id, Date repairDate, String shortDescription, RepairType repairType,
 			BigDecimal repairCost, Owner owner, Property property, String description, boolean deleted) {
 		super();
 		this.id = id;
