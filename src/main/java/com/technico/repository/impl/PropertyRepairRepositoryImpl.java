@@ -27,13 +27,16 @@ public class PropertyRepairRepositoryImpl extends DBRepositoryImpl<PropertyRepai
 		return PropertyRepair.class;
 	}
 
+	
+	
+	
+	  
+	 
 	/**
-	 * public List<PropertyRepair> readByDateBetween(Date d1, Date d2){
-	 * List<PropertyRepair> propertyRepairList= entityManager .createQuery("select *
-	 * from propertyrepair where repairDate_from >= :repairDate AND repairDate_to <=
-	 * :repair .", PropertyRepair.class) .setParameter("")
+	 * @param d1
+	 * @param d2
+	 * @return
 	 */
-
 	public List<PropertyRepair> readByDateBetween(Date d1, Date d2) {
 		List<PropertyRepair> propertyRepairList = entityManager
 				.createQuery(

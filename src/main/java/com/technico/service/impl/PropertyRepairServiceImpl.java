@@ -54,7 +54,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	public List<PropertyRepair> searchByDateBetween (Date d1, Date d2) throws PropertyRepairException{
 		List<PropertyRepair> listOfPropertyRepairs = propertyRepairRepository.readByDateBetween(d1, d2);
 				if(listOfPropertyRepairs.isEmpty())
-					throw new PropertyRepairException("The repairs with dates " +d1+" and" +d2+" could not be found.")
+					throw new PropertyRepairException("The repairs with dates " +d1+" and" +d2+" could not be found.");
 					return listOfPropertyRepairs;
 				
 }
