@@ -8,6 +8,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Property {
@@ -28,6 +29,8 @@ public class Property {
 	private long ownerId;
 	
 	private boolean deleted;
+	@ManyToOne
+	private Owner owner;
 	
 	public String getPropertyIdNumber() {
 		return propertyIdNumber;

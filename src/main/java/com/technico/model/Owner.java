@@ -13,6 +13,8 @@ public class Owner {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
+	
 
 	private String ownerVAT;
 	private String name;
@@ -27,9 +29,10 @@ public class Owner {
 	@OneToMany(mappedBy = "owner")
 	private List<Property> property;
 
-	public Owner(String ownerVAT, String name, String surname, String address, String phoneNumber, String email,
-			String username, String password, boolean deleted) {
+	public Owner(String ownerVAT, String name, String surname, String address,
+			String phoneNumber, String email, String username, String password, boolean deleted) {
 		super();
+
 		this.ownerVAT = ownerVAT;
 		this.name = name;
 		this.surname = surname;
@@ -124,13 +127,8 @@ public class Owner {
 	public void setProperty(List<Property> property) {
 		this.property = property;
 	}
+	
 
-	@Override
-	public String toString() {
-		return "Owner [id=" + id + ", ownerVAT=" + ownerVAT + ", name=" + name + ", surname=" + surname + ", address="
-				+ address + ", phoneNumber=" + phoneNumber + ", email=" + email + ", username=" + username
-				+ ", password=" + password + "]";
-	}
 
 	public boolean isDeleted() {
 		return deleted;
@@ -139,4 +137,13 @@ public class Owner {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
+	
+	@Override
+	public String toString() {
+		return "Owner [id=" + id + ", ownerVAT=" + ownerVAT + ", name=" + name
+				+ ", surname=" + surname + ", address=" + address + ", phoneNumber=" + phoneNumber + ", email=" + email
+				+ ", username=" + username + ", password=" + password + ", deleted=" + deleted + ", property="
+				+ property + "]";
+	}
+
 }

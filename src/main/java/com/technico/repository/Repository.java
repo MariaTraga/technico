@@ -10,6 +10,6 @@ public interface Repository<D, ID> {
 	public Optional<D> read(ID id);
 	public List<D> readAll();
 	public Optional<D> update(D entity);
-	public boolean delete(ID id);
+	public boolean delete(ID id); 
 	
 }
