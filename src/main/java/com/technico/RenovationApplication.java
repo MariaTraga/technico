@@ -21,14 +21,16 @@ public class RenovationApplication {
 	public static void main(String[] args) {
 		
 		EntityManager entityManager = JpaUtil.getEntityManager();
-		
+
 		PropertyRepositoryImpl propertyRepository = new PropertyRepositoryImpl(entityManager);
 		PropertyServiceImpl propertyService = new PropertyServiceImpl(propertyRepository);
 		
+
 		Owner owner = new Owner("09121212", "John", "Doe", "Athens", "2109999999","john@mail.com", "john", "1234",false);
 		owner.setId(1l);
 		Owner owner2 = new Owner("09121213", "John", "Doe", "Athens", "2109999999","johnie@mail.com", "john", "1234",false);
 		owner2.setId(2l);
+
 		Property property = new Property("123456","Athens","2002",PropertyType.APARTMENT, owner,false);
 		Property property2 = new Property("123457","Athens","2002",PropertyType.APARTMENT, owner2,false);
 		Property property3 = new Property("123857","Athens","2003",PropertyType.APARTMENT, owner2,false);
@@ -47,11 +49,13 @@ public class RenovationApplication {
 			logger.info("Searched property by owner VAT was found, first entry has id: {} -- property id number: {}"
 					,searchedProperty.getId()
 					,searchedProperty.getPropertyIdNumber());
+
 		} catch (PropertyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
+			//e.printStackTrace();
 		}
 		
+
 //		try {
 //			propertyService.deleteProperty(property3.getId());
 //			//System.out.println("Hello! "+propertyService.displayProperty(9l));
@@ -59,6 +63,7 @@ public class RenovationApplication {
 //			System.out.println(e.getMessage());
 //			e.printStackTrace();
 //		}
+
 		
 		JpaUtil.shutdown();		 
 

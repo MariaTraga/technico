@@ -1,5 +1,6 @@
 package com.technico.model;
 
+
 //import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -16,13 +17,16 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 //@SQLDelete(sql = "UPDATE property SET deleted = true WHERE id = ?")
+
 @Where(clause = "deleted = false")
 public class Property {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	private long id;
 	@Column(unique = true)
+
 	private String propertyIdNumber;
 	private String propertyAddress;
 	private String yearOfConstruction;
@@ -31,6 +35,7 @@ public class Property {
 	private Owner owner;
 	@Enumerated(EnumType.STRING)
 	private PropertyType propertyType;
+
 
 	public Property(String propertyIdNumber, String propertyAddress, String yearOfConstruction,
 			PropertyType propertyType, Owner owner, boolean deleted) {
@@ -46,6 +51,7 @@ public class Property {
 	public Property() {
 		super();
 	}
+
 
 	public long getId() {
 		return id;
@@ -79,6 +85,7 @@ public class Property {
 		this.yearOfConstruction = yearOfConstruction;
 	}
 
+
 	public Owner getOwner() {
 		return owner;
 	}
@@ -98,6 +105,7 @@ public class Property {
 	public PropertyType getPropertyType() {
 		return propertyType;
 	}
+
 
 	public void setPropertyType(PropertyType propertyType) {
 		this.propertyType = propertyType;
