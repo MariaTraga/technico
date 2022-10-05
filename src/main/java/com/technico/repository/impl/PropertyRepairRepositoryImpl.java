@@ -3,6 +3,7 @@ package com.technico.repository.impl;
 import java.sql.Date;
 import java.util.List;
 
+import com.technico.model.Property;
 import com.technico.model.PropertyRepair;
 import com.technico.repository.PropertyRepairRepository;
 
@@ -46,5 +47,14 @@ public class PropertyRepairRepositoryImpl extends DBRepositoryImpl<PropertyRepai
 				.setParameter("repairDate_from", d1).setParameter("repairDate_to", d2).getResultList();
 		return propertyRepairList;
 
+	}
+	
+	public List<PropertyRepair> readByOwnerId(long ownerId) {
+		List<PropertyRepair> propertyRepairList = entityManager
+				.createQuery("SELECT r from " + getEntityClassName() + " r WHERE r.owner.ownerId = :ownerId",
+						PropertyRepair.class)
+				.setParameter("ownerId", ownerId).getResultList();
+
+		return propertyRepairList;
 	}
 }

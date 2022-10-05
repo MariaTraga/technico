@@ -109,10 +109,9 @@ public class PropertyRepair {
 		this.deleted = deleted;
 	}
 
-	public PropertyRepair(long id, Date repairDate, String shortDescription, RepairType repairType,
+	public PropertyRepair(Date repairDate, String shortDescription, RepairType repairType,
 			BigDecimal repairCost, Owner owner, Property property, String description, boolean deleted) {
 		super();
-		this.id = id;
 		this.repairDate = repairDate;
 		this.shortDescription = shortDescription;
 		this.repairType = repairType;

@@ -62,7 +62,7 @@ public class PropertyServiceImplTest {
 
 	@BeforeEach
 	void initialize() {	
-		owner = new Owner("09121212", "John", "Doe", "Athens", "2109999999", "john@mail.com", "john", "1234", false);
+		owner = new Owner("09121212", "John", "Doe", "Athens", "2109999999", "john@mail.com", "john", "1234", false,null);
 		owner.setId(1l);
 		property1 = new Property("654321","Athens","2000",PropertyType.MAISONETTE, owner,false);
 		property1.setId(1l);

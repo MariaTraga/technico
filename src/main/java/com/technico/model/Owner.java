@@ -1,5 +1,6 @@
 package com.technico.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.SQLDelete;
@@ -28,23 +29,44 @@ public class Owner {
 	private boolean deleted;
 
 	@OneToMany(mappedBy = "owner")
-	private List<Property> property;
+    private List<Property> property = new ArrayList<>();
 
-	public Owner(String ownerVAT, String name, String surname, String address,
-			String phoneNumber, String email, String username, String password, boolean deleted, List<Property> property) {
-		super();
 
-		this.ownerVAT = ownerVAT;
-		this.name = name;
-		this.surname = surname;
-		this.address = address;
-		this.phoneNumber = phoneNumber;
-		this.email = email;
-		this.username = username;
-		this.password = password;
-		this.deleted = deleted;
-    this.property = property;
-	}
+
+   public Owner(String ownerVAT, String name, String surname, String address,
+            String phoneNumber, String email, String username, String password, boolean deleted, List<Property> property) {
+        super();
+
+
+
+       this.ownerVAT = ownerVAT;
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.deleted = deleted;
+        this.property = property;
+    }
+    
+    public Owner(String ownerVAT, String name, String surname, String address,
+            String phoneNumber, String email, String username, String password, boolean deleted) {
+        super();
+
+
+
+       this.ownerVAT = ownerVAT;
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.deleted = deleted;
+    }
 
 	public Owner() {
 		super();

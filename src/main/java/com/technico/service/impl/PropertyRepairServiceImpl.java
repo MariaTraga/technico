@@ -4,7 +4,9 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.technico.exception.PropertyException;
 import com.technico.exception.PropertyRepairException;
+import com.technico.model.Property;
 import com.technico.model.PropertyRepair;
 import com.technico.repository.impl.PropertyRepairRepositoryImpl;
 import com.technico.service.PropertyRepairService;
@@ -42,7 +44,6 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 			throw new PropertyRepairException("The repair has not been updated.");
 		return propertyRepairDb.orElse(null);
 	}
-
 	@Override
 	public boolean deletePropertyRepair(Long id) throws PropertyRepairException {
 		boolean deleted = propertyRepairRepository.delete(id);
@@ -51,11 +52,17 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 		return deleted;
 	}
 
-	public List<PropertyRepair> searchByDateBetween (Date d1, Date d2) throws PropertyRepairException{
+	public List<PropertyRepair> searchByDateBetween(Date d1, Date d2) throws PropertyRepairException {
 		List<PropertyRepair> listOfPropertyRepairs = propertyRepairRepository.readByDateBetween(d1, d2);
-				if(listOfPropertyRepairs.isEmpty())
-					throw new PropertyRepairException("The repairs with dates " +d1+" and" +d2+" could not be found.");
-					return listOfPropertyRepairs;
-				
-}
+		if (listOfPropertyRepairs.isEmpty())
+			throw new PropertyRepairException("The repairs with dates " + d1 + " and" + d2 + " could not be found.");
+		return listOfPropertyRepairs;
+
+	}
+	public List<PropertyRepair> searchByOwnerId(long id) throws PropertyRepairException{
+		List<PropertyRepair> listOfPropertiesRepairs = propertyRepairRepository.readByOwnerId(id);
+		if (listOfPropertiesRepairs == null || listOfPropertiesRepairs.isEmpty())
+			throw new PropertyRepairException("The repairs with owner id " + id + " could not be found.");
+		return listOfPropertiesRepairs;
+	}
 }
