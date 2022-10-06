@@ -1,5 +1,6 @@
 package com.technico;
 
+
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.technico.enums.PropertyType;
 import com.technico.enums.RepairType;
+import com.technico.exception.InvalidEmailException;
 import com.technico.exception.OwnerException;
 import com.technico.exception.PropertyException;
 import com.technico.exception.PropertyRepairException;
@@ -37,7 +39,7 @@ public class RenovationApplication {
 	public static void main(String[] args) {
 
 		EntityManager entityManager = JpaUtil.getEntityManager();
-
+		
 		PropertyRepository propertyRepository = new PropertyRepositoryImpl(entityManager);
 		PropertyService propertyService = new PropertyServiceImpl(propertyRepository);
 
@@ -49,8 +51,8 @@ public class RenovationApplication {
 
 		//DEMONSTRATION FUNCTIONS
 		addDataToDB(ownerService, propertyService, propertyRepairService);
-		deleteAllOwnersFromDB(ownerService, propertyService, propertyRepairService);
-
+		updatePropertyFromDB(ownerService, 1l);
+		//deleteAllOwnersFromDB(ownerService, propertyService, propertyRepairService);
 		///////
 		JpaUtil.shutdown();
 	}
@@ -92,6 +94,8 @@ public class RenovationApplication {
 			prs.addPropertyRepair(repair1);
 			prs.addPropertyRepair(repair2);
 			prs.addPropertyRepair(repair3);
+			
+			
 
 		} catch (OwnerException e) {
 			logger.error("================================>");
@@ -113,7 +117,7 @@ public class RenovationApplication {
 
 		try {
 			
-			for (Owner owner : os.readAllOwners()) {
+			for (Owner owner : os.showAllOwners()) {
 				logger.info(owner.toString());
 			}
 
@@ -128,7 +132,7 @@ public class RenovationApplication {
 	public static void deleteAllOwnersFromDB(OwnerService os, PropertyService ps, PropertyRepairService prs) {
 
 		try {		
-			for (Owner owner : os.readAllOwners()) {
+			for (Owner owner : os.showAllOwners()) {
 				logger.info("================================>Deleting owner with id: " + owner.getId());
 				os.deleteOwner(owner.getId());
 			}
@@ -139,7 +143,54 @@ public class RenovationApplication {
 			logger.error("<================================");
 		}
 	}
-	
-	
 
+	//update owners
+	public static void updatePropertyFromDB(OwnerService os, long id) {
+		try {
+
+		Owner owner = os.showOwner(1l);
+		logger.info("-=-=-=-=-");
+		logger.info("", owner.toString());
+		owner.setAddress("Athina");
+		owner.setEmail("john2@mail.com");
+		owner.setPassword("4231");
+		os.updateOwner(owner);
+		
+		logger.info("Property After Update: {}",os.showOwner(1l).toString());
+        logger.info("*************************************");
+        
+		} catch (OwnerException e) {
+			logger.error("================================>");
+            logger.error("Something went wrong. Details: {}", e.getMessage(), e);
+            logger.error("<================================");
+		} catch (InvalidEmailException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void updatePropertyFromDB(PropertyService ps,long id) {
+        try {
+
+
+
+           Property property = ps.displayProperty(1l);
+            logger.info("*************************************");
+            logger.info("Property Before Update: {}",property.toString());
+            property.setPropertyAddress("NEW-ADDRESS");
+            property.setPropertyIdNumber("121212");
+            property.setPropertyType(PropertyType.DETACHED);
+            property.setYearOfConstruction("2021");
+            ps.updateProperty(property);
+            
+            logger.info("Property After Update: {}",ps.displayProperty(1l).toString());
+            logger.info("*************************************");
+
+
+
+       } catch (PropertyException e) {
+            logger.error("================================>");
+            logger.error("Something went wrong. Details: {}", e.getMessage(), e);
+            logger.error("<================================");
+        }
+    }
 }
