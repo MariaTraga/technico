@@ -49,6 +49,7 @@ public class RenovationApplication {
 
 		// DEMONSTRATION FUNCTIONS
 		addDataToDB(ownerService, propertyService, propertyRepairService);
+
 		deleteAllOwnersFromDB(ownerService, propertyService, propertyRepairService);
 		
 		
@@ -59,6 +60,9 @@ public class RenovationApplication {
 		readPropertyFromDB(propertyService,2l);
 		updatePropertyFromDB(propertyService,1l);
 		
+
+		//deleteAllOwnersFromDB(ownerService, propertyService, propertyRepairService);
+		searchByIDNumber(propertyRepairService);
 
 		///////
 		JpaUtil.shutdown();
@@ -102,9 +106,13 @@ public class RenovationApplication {
 					new BigDecimal(1455), owner1, property2, "Roof repairs", false);
 			PropertyRepair repair3 = new PropertyRepair(new Date(122, 14, 6), "Fix apartment", RepairType.PAINTING,
 					new BigDecimal(70), owner2, property3, "Paint walls", false);
+			PropertyRepair repair4 = new PropertyRepair(new Date(122, 14, 6), "Fix apartment", RepairType.FRAMES,
+					new BigDecimal(155), owner3, property3, "Paint walls", false);
+
 			prs.addPropertyRepair(repair1);
 			prs.addPropertyRepair(repair2);
 			prs.addPropertyRepair(repair3);
+			prs.addPropertyRepair(repair4);
 
 			
 			
@@ -252,6 +260,19 @@ public class RenovationApplication {
 			logger.info("*************************************");
 
 		} catch (PropertyException e) {
+      logger.error("================================>");
+			logger.error("Something went wrong. Details: {}", e.getMessage(), e);
+			logger.error("<================================");
+		}
+
+	public static void searchByIDNumber(PropertyRepairService prs) {
+
+		try {
+
+			//prs.searchByOwnerId(1L);
+			prs.searchByDateBetween(new Date(122, 14, 6), new Date(122, 14, 6));
+
+		} catch (PropertyRepairException e) {
 			logger.error("================================>");
 			logger.error("Something went wrong. Details: {}", e.getMessage(), e);
 			logger.error("<================================");

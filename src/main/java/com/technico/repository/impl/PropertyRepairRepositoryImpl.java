@@ -51,7 +51,7 @@ public class PropertyRepairRepositoryImpl extends DBRepositoryImpl<PropertyRepai
 	
 	public List<PropertyRepair> readByOwnerId(long ownerId) {
 		List<PropertyRepair> propertyRepairList = entityManager
-				.createQuery("SELECT r from " + getEntityClassName() + " r WHERE r.owner.ownerId = :ownerId",
+				.createQuery("SELECT r from " + getEntityClassName() + " r WHERE r.owner.id = :ownerId",
 						PropertyRepair.class)
 				.setParameter("ownerId", ownerId).getResultList();
 
