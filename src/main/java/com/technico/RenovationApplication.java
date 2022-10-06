@@ -68,14 +68,14 @@ public class RenovationApplication {
 		updatePropertyFromDB(1l);
 		searchPropertyByIDNumber("123858");
 		searchPropertyByVAT("09121212");
-		// deleteAllPropertiesFromDBSafe();
-		// deleteAllPropertiesFromDBPermanent();
+		//deleteAllPropertiesFromDBSafe();
+		//deleteAllPropertiesFromDBPermanent();
 
 		// REPAIR
-		searchRepairByIDNumber(1l);
+		searchRepairByOwnerIDNumber(1l);
 		searchRepairBetweenDates(LocalDate.of(2022, 10, 6), LocalDate.of(2022, 12, 6));
 		updateRepairFromDB(2l);
-		deleteRepairFromDB(4l);
+		//deleteRepairFromDB(4l);
 
 		// END
 		JpaUtil.shutdown();
@@ -179,7 +179,7 @@ public class RenovationApplication {
 			Owner owner = ownerService.showOwner(1l);
 			logger.info("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
 			logger.info("Owner Before Update: {}", owner.toString());
-			owner.setAddress("Athina");
+			owner.setAddress("NEW-ADDRESS");
 			owner.setEmail("john@mail.com");
 			owner.setPassword("4231");
 			ownerService.updateOwner(owner);
@@ -397,7 +397,7 @@ public class RenovationApplication {
 
 	}
 
-	public static void searchRepairByIDNumber(long id) {
+	public static void searchRepairByOwnerIDNumber(long id) {
 
 		try {
 			List<PropertyRepair> propertyRepairList = propertyRepairService.searchByOwnerId(id);
