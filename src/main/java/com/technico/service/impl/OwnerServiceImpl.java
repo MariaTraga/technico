@@ -3,9 +3,12 @@ package com.technico.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.technico.exception.InvalidEmailException;
 import com.technico.exception.OwnerException;
 import com.technico.exception.PropertyException;
+import com.technico.exception.PropertyRepairException;
 import com.technico.model.Owner;
+import com.technico.model.PropertyRepair;
 import com.technico.repository.OwnerRepository;
 import com.technico.service.OwnerService;
 
@@ -19,21 +22,27 @@ public class OwnerServiceImpl implements OwnerService{
 	}
 
 	@Override
-	public void addOwner(Owner owner) throws OwnerException {
+	public Owner addOwner(Owner owner) throws OwnerException {
 		Optional<Owner> ownerDb = ownerRepository.create(owner);
 		if(ownerDb.isEmpty())
 			throw new OwnerException("The owner has not been saved.");
+		return ownerDb.orElse(null);
 	}
 	
 	@Override
-	public Owner updateOwner(Owner owner) throws OwnerException {
+	public Owner updateOwner(Owner owner) throws OwnerException, InvalidEmailException {
 		Optional<Owner> ownerDb = ownerRepository.update(owner);
 		if(ownerDb.isEmpty()) 
 			throw new OwnerException("The owner has not been updated.");
 		return ownerDb.orElse(null);
 			
 	}
-
+	
+	@Override
+	public Owner showOwner(Long id) throws OwnerException {
+		return ownerRepository.read(id).orElse(null);
+	}
+	
 	@Override
 	public void deleteOwner(long id) throws OwnerException {
 		if(!ownerRepository.delete(id))
@@ -41,7 +50,7 @@ public class OwnerServiceImpl implements OwnerService{
 	}
 	
 	@Override
-	public List<Owner> readAllOwners() throws OwnerException {
+	public List<Owner> showAllOwners() throws OwnerException {
 		return ownerRepository.readAll();
 	}
 	
@@ -61,5 +70,4 @@ public class OwnerServiceImpl implements OwnerService{
 			throw new OwnerException("owner with Email: " + in + "is not found");
 		return ownerDb.get();
 	}
-	
 }

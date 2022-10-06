@@ -29,7 +29,10 @@ public class Owner {
 	private String surname;
 	private String address;
 	private String phoneNumber;
+	
+	@Column(unique = true)
 	private String email;
+	
 	private String username;
 	private String password;
 	private boolean deleted;
