@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,12 +17,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
+@SQLDelete(sql = "UPDATE owner SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class Owner {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+	@Column(unique = true)
 	private String ownerVAT;
 	private String name;
 	private String surname;
@@ -31,48 +34,44 @@ public class Owner {
 	private String password;
 	private boolean deleted;
 
-	@OneToMany(mappedBy = "owner", cascade = {CascadeType.REMOVE}, orphanRemoval = true)
+	@OneToMany(mappedBy = "owner", cascade = { CascadeType.REMOVE }, orphanRemoval = true)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Property> property = new ArrayList<>();
 
-	@OneToMany(mappedBy = "owner")
+	@OneToMany(mappedBy = "owner", cascade = { CascadeType.REMOVE }, orphanRemoval = true)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<PropertyRepair> propertyRepairs = new ArrayList<>();
-	
-   public Owner(String ownerVAT, String name, String surname, String address,
-            String phoneNumber, String email, String username, String password, boolean deleted, List<Property> property) {
-        super();
 
+	public Owner(String ownerVAT, String name, String surname, String address, String phoneNumber, String email,
+			String username, String password, boolean deleted, List<Property> property) {
+		super();
 
+		this.ownerVAT = ownerVAT;
+		this.name = name;
+		this.surname = surname;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.deleted = deleted;
+		this.property = property;
+	}
 
-       this.ownerVAT = ownerVAT;
-        this.name = name;
-        this.surname = surname;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.deleted = deleted;
-        this.property = property;
-    }
-    
-    public Owner(String ownerVAT, String name, String surname, String address,
-            String phoneNumber, String email, String username, String password, boolean deleted) {
-        super();
+	public Owner(String ownerVAT, String name, String surname, String address, String phoneNumber, String email,
+			String username, String password, boolean deleted) {
+		super();
 
-
-
-       this.ownerVAT = ownerVAT;
-        this.name = name;
-        this.surname = surname;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.deleted = deleted;
-    }
+		this.ownerVAT = ownerVAT;
+		this.name = name;
+		this.surname = surname;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.deleted = deleted;
+	}
 
 	public Owner() {
 		super();
@@ -149,19 +148,19 @@ public class Owner {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public List<Property> getProperty() {
 		return property;
 	}
 
 	public void setProperty(List<Property> property) {
 		this.property = property;
-  }
-	
+	}
+
 	public List<PropertyRepair> getPropertyRepairs() {
 		return propertyRepairs;
 	}
-	
+
 	public boolean isDeleted() {
 		return deleted;
 	}
@@ -169,13 +168,12 @@ public class Owner {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Owner [id=" + id + ", ownerVAT=" + ownerVAT + ", name=" + name
-				+ ", surname=" + surname + ", address=" + address + ", phoneNumber=" + phoneNumber + ", email=" + email
-				+ ", username=" + username + ", password=" + password + ", deleted=" + deleted + ", property="
-				+ property + "]";
+		return "Owner [id=" + id + ", ownerVAT=" + ownerVAT + ", name=" + name + ", surname=" + surname + ", address="
+				+ address + ", phoneNumber=" + phoneNumber + ", email=" + email + ", username=" + username
+				+ ", password=" + password + ", deleted=" + deleted + ", property=" + property + "]";
 	}
 
 }

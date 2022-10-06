@@ -11,4 +11,7 @@ public interface PropertyService {
 	Property displayProperty(Long id) throws PropertyException;
 	Property updateProperty(Property property) throws PropertyException;
 	boolean deleteProperty(Long id) throws PropertyException;
+	Property searchById(String input) throws PropertyException;
+	List<Property> searchByVAT(String input) throws PropertyException;
+	boolean deleteSafeProperty(Long id) throws PropertyException;
 }

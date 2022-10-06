@@ -3,6 +3,7 @@ package com.technico.model;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import com.technico.enums.RepairType;
@@ -14,7 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-//@SQLDelete(sql = "UPDATE propertyRepair SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE propertyrepair SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 
 public class PropertyRepair {
