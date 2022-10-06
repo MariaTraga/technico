@@ -60,7 +60,7 @@ public class RenovationApplication {
 		// updateOwnerFromDBException(1l);
 		searchOwnerByVAT("WOOF1234");
 		searchOwnerByEmail("Fror@gmail.com");
-		// deleteAllOwnersFromDB(ownerService);
+		//deleteAllOwnersFromDB();
 
 		// PROPERTY
 		readAllPropertiesFromDB();
@@ -68,8 +68,8 @@ public class RenovationApplication {
 		updatePropertyFromDB(1l);
 		searchPropertyByIDNumber("123858");
 		searchPropertyByVAT("09121212");
-		// deleteAllPropertiesFromDBSafe(propertyService);
-		// deleteAllPropertiesFromDBPermanent(propertyService);
+		// deleteAllPropertiesFromDBSafe();
+		// deleteAllPropertiesFromDBPermanent();
 
 		// REPAIR
 		searchRepairByIDNumber(1l);
