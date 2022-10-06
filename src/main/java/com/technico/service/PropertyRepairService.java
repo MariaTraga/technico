@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import com.technico.exception.PropertyRepairException;
+import com.technico.model.Owner;
 import com.technico.model.PropertyRepair;
 
 public interface PropertyRepairService {
@@ -14,6 +15,6 @@ public interface PropertyRepairService {
 	PropertyRepair updatePropertyRepair(PropertyRepair propertyRepair) throws PropertyRepairException;
 	boolean deletePropertyRepair(Long id) throws PropertyRepairException;
 	List<PropertyRepair> searchByDateBetween(Date d1, Date d2) throws PropertyRepairException;
-	List<PropertyRepair> searchByOwnerId(long id) throws PropertyRepairException;
+	List<PropertyRepair> searchByOwnerId(long ownerId) throws PropertyRepairException;
 
 }
