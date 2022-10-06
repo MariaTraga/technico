@@ -3,8 +3,11 @@ package com.technico.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Where;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,11 +31,14 @@ public class Owner {
 	private String password;
 	private boolean deleted;
 
+	@OneToMany(mappedBy = "owner", cascade = {CascadeType.REMOVE}, orphanRemoval = true)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private List<Property> property = new ArrayList<>();
+
 	@OneToMany(mappedBy = "owner")
-    private List<Property> property = new ArrayList<>();
-
-
-
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private List<PropertyRepair> propertyRepairs = new ArrayList<>();
+	
    public Owner(String ownerVAT, String name, String surname, String address,
             String phoneNumber, String email, String username, String password, boolean deleted, List<Property> property) {
         super();
@@ -151,6 +157,10 @@ public class Owner {
 	public void setProperty(List<Property> property) {
 		this.property = property;
   }
+	
+	public List<PropertyRepair> getPropertyRepairs() {
+		return propertyRepairs;
+	}
 	
 	public boolean isDeleted() {
 		return deleted;

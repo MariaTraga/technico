@@ -1,11 +1,16 @@
 package com.technico.model;
 
 
+import java.util.List;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 //import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import com.technico.enums.PropertyType;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,6 +19,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 //@SQLDelete(sql = "UPDATE property SET deleted = true WHERE id = ?")
@@ -25,7 +31,6 @@ public class Property {
 
 	private long id;
 	@Column(unique = true)
-
 	private String propertyIdNumber;
 	private String propertyAddress;
 	private String yearOfConstruction;
@@ -33,6 +38,10 @@ public class Property {
 	@ManyToOne
 	private Owner owner;
 
+	@OneToMany(mappedBy = "property", cascade = {CascadeType.REMOVE}, orphanRemoval = true)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private List<PropertyRepair> repairs;
+	
 	@Enumerated(EnumType.STRING)
 	private PropertyType propertyType;
 
@@ -115,6 +124,14 @@ public class Property {
 	public String toString() {
 		return "Property [id=" + id + ", propertyIdNumber=" + propertyIdNumber + ", propertyAddress=" + propertyAddress
 				+ ", yearOfConstruction=" + yearOfConstruction + ", owner=" + owner	+ ", propertyType=" + propertyType + "]";
+	}
+
+	public List<PropertyRepair> getRepairs() {
+		return repairs;
+	}
+
+	public void setRepairs(List<PropertyRepair> repairs) {
+		this.repairs = repairs;
 	}
 
 }
