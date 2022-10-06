@@ -31,10 +31,6 @@ public class PropertyServiceImpl implements PropertyService {
 	@Override
 	public List<Property> readAllProperties() throws PropertyException {
 		List<Property> list = propertyRepository.readAll();
-		for (Property p : list) {
-			if (p.getOwner().isDeleted())
-				logger.info("DELETEDDDD");
-		}
 		if (list == null || list.isEmpty())
 			throw new PropertyException("The list of properties cannot be read.");
 		return list;

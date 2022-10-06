@@ -1,6 +1,6 @@
 package com.technico.service.impl;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,13 +26,19 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	}
 
 	@Override
-	public List<PropertyRepair> displayAllPropertyRepairs() {
-		return propertyRepairRepository.readAll();
+	public List<PropertyRepair> displayAllPropertyRepairs() throws PropertyRepairException {
+		List<PropertyRepair> list = propertyRepairRepository.readAll();
+		if (list == null || list.isEmpty())
+			throw new PropertyRepairException("The list of property repairs cannot be read.");
+		return list;
 	}
 
 	@Override
 	public PropertyRepair displayPropertyRepair(Long id) throws PropertyRepairException {
-		return propertyRepairRepository.read(id).orElse(null);
+		PropertyRepair propertyRepair = propertyRepairRepository.read(id).orElse(null);
+		if(propertyRepair == null)
+			throw new PropertyRepairException("The property repair cannot be found.");
+		return propertyRepair;
 	}
 
 	@Override
@@ -51,7 +57,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 	}
 
 	@Override
-	public List<PropertyRepair> searchByDateBetween(Date d1, Date d2) throws PropertyRepairException {
+	public List<PropertyRepair> searchByDateBetween(LocalDate d1, LocalDate d2) throws PropertyRepairException {
 		List<PropertyRepair> listOfPropertyRepairs = propertyRepairRepository.readByDateBetween(d1, d2);
 		if (listOfPropertyRepairs.isEmpty())
 			throw new PropertyRepairException("The repairs with dates " + d1 + " and" + d2 + " could not be found.");
@@ -59,7 +65,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 
 	}
 	@Override
-	public List<PropertyRepair> searchByOwnerId(long id) throws PropertyRepairException{
+	public List<PropertyRepair> searchByOwnerId(Long id) throws PropertyRepairException{
 		List<PropertyRepair> listOfPropertiesRepairs = propertyRepairRepository.readByOwnerId(id);
 		if (listOfPropertiesRepairs == null || listOfPropertiesRepairs.isEmpty())
 			throw new PropertyRepairException("The repairs with owner id " + id + " could not be found.");

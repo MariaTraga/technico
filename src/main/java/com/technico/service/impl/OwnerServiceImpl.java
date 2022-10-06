@@ -3,12 +3,8 @@ package com.technico.service.impl;
 import java.util.List;
 import java.util.Optional;
 
-import com.technico.exception.InvalidEmailException;
 import com.technico.exception.OwnerException;
-import com.technico.exception.PropertyException;
-import com.technico.exception.PropertyRepairException;
 import com.technico.model.Owner;
-import com.technico.model.PropertyRepair;
 import com.technico.repository.OwnerRepository;
 import com.technico.service.OwnerService;
 
@@ -21,6 +17,7 @@ public class OwnerServiceImpl implements OwnerService{
 		this.ownerRepository = ownerRepository;
 	}
 
+	
 	@Override
 	public Owner addOwner(Owner owner) throws OwnerException {
 		Optional<Owner> ownerDb = ownerRepository.create(owner);
@@ -30,7 +27,7 @@ public class OwnerServiceImpl implements OwnerService{
 	}
 	
 	@Override
-	public Owner updateOwner(Owner owner) throws OwnerException, InvalidEmailException {
+	public Owner updateOwner(Owner owner) throws OwnerException {
 		Optional<Owner> ownerDb = ownerRepository.update(owner);
 		if(ownerDb.isEmpty()) 
 			throw new OwnerException("The owner has not been updated.");

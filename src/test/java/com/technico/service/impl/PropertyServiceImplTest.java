@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,11 +105,11 @@ public class PropertyServiceImplTest {
 			propertyService.addProperty(property3);
 
 			// add property repairs
-			repair1 = new PropertyRepair(new Date(122, 9, 6), "Fix apartment", RepairType.PLUMBING, new BigDecimal(555),
+			repair1 = new PropertyRepair(LocalDate.of(2022, 9, 6), "Fix apartment", RepairType.PLUMBING, new BigDecimal(555),
 					owner1, property1, "Bring plumber", false);
-			repair2 = new PropertyRepair(new Date(122, 10, 6), "Fix apartment", RepairType.INSULATION,
+			repair2 = new PropertyRepair(LocalDate.of(2022, 10, 6), "Fix apartment", RepairType.INSULATION,
 					new BigDecimal(1455), owner1, property2, "Roof repairs", false);
-			repair3 = new PropertyRepair(new Date(122, 14, 6), "Fix apartment", RepairType.PAINTING, new BigDecimal(70),
+			repair3 = new PropertyRepair(LocalDate.of(2022, 12, 6), "Fix apartment", RepairType.PAINTING, new BigDecimal(70),
 					owner2, property3, "Paint walls", false);
 			propertyRepairService.addPropertyRepair(repair1);
 			propertyRepairService.addPropertyRepair(repair2);

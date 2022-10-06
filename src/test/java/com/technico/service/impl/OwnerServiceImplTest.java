@@ -1,51 +1,45 @@
 package com.technico.service.impl;
 
 	import static org.junit.jupiter.api.Assertions.assertAll;
-	import static org.junit.jupiter.api.Assertions.assertEquals;
-	import static org.junit.jupiter.api.Assertions.assertNotEquals;
-	import static org.junit.jupiter.api.Assertions.assertThrows;
-	import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-	import java.math.BigDecimal;
-	import java.sql.Date;
-	import java.util.ArrayList;
-	import java.util.List;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.time.LocalDate;
 
-	import org.junit.jupiter.api.AfterAll;
-	import org.junit.jupiter.api.BeforeAll;
-	import org.junit.jupiter.api.BeforeEach;
-	import org.junit.jupiter.api.DisplayName;
-	import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-	import org.junit.jupiter.api.Test;
-	import org.junit.jupiter.api.TestMethodOrder;
-	import org.junit.jupiter.api.extension.ExtendWith;
-	import org.mockito.junit.jupiter.MockitoExtension;
-	import org.slf4j.Logger;
-	import org.slf4j.LoggerFactory;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-	import com.technico.RenovationApplication;
-	import com.technico.enums.PropertyType;
-	import com.technico.enums.RepairType;
-	import com.technico.exception.OwnerException;
-	import com.technico.exception.PropertyException;
-	import com.technico.exception.PropertyRepairException;
-	import com.technico.model.Owner;
-	import com.technico.model.Property;
-	import com.technico.model.PropertyRepair;
-	import com.technico.repository.OwnerRepository;
-	import com.technico.repository.PropertyRepairRepository;
-	import com.technico.repository.PropertyRepository;
-	import com.technico.repository.impl.OwnerRepositoryImpl;
-	import com.technico.repository.impl.PropertyRepairRepositoryImpl;
-	import com.technico.repository.impl.PropertyRepositoryImpl;
-	import com.technico.service.OwnerService;
-	import com.technico.service.PropertyRepairService;
-	import com.technico.service.PropertyService;
+import com.technico.enums.PropertyType;
+import com.technico.enums.RepairType;
+import com.technico.exception.OwnerException;
+import com.technico.exception.PropertyException;
+import com.technico.exception.PropertyRepairException;
+import com.technico.model.Owner;
+import com.technico.model.Property;
+import com.technico.model.PropertyRepair;
+import com.technico.repository.OwnerRepository;
+import com.technico.repository.PropertyRepairRepository;
+import com.technico.repository.PropertyRepository;
+import com.technico.repository.impl.OwnerRepositoryImpl;
+import com.technico.repository.impl.PropertyRepairRepositoryImpl;
+import com.technico.repository.impl.PropertyRepositoryImpl;
+import com.technico.service.OwnerService;
+import com.technico.service.PropertyRepairService;
+import com.technico.service.PropertyService;
 
-	import jakarta.persistence.EntityManager;
-	import jakarta.persistence.EntityManagerFactory;
-	import jakarta.persistence.Persistence;
-	import jakarta.persistence.PersistenceUnit;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.PersistenceUnit;
 
 	@TestMethodOrder(OrderAnnotation.class)
 	@ExtendWith(MockitoExtension.class)
@@ -106,9 +100,9 @@ package com.technico.service.impl;
 				propertyService.addProperty(property3);
 				
 		        // add property repairs
-				repair1 = new PropertyRepair(new Date(122,9,6), "Fix apartment", RepairType.PLUMBING, new BigDecimal(555), owner1, property1, "Bring plumber", false);
-				repair2 = new PropertyRepair(new Date(122,10,6), "Fix apartment", RepairType.INSULATION, new BigDecimal(1455), owner1, property2, "Roof repairs", false);
-				repair3 = new PropertyRepair(new Date(122,14,6), "Fix apartment", RepairType.PAINTING, new BigDecimal(70), owner2, property3, "Paint walls", false);
+				repair1 = new PropertyRepair(LocalDate.of(2022, 9, 6), "Fix apartment", RepairType.PLUMBING, new BigDecimal(555), owner1, property1, "Bring plumber", false);
+				repair2 = new PropertyRepair(LocalDate.of(2022, 10, 6), "Fix apartment", RepairType.INSULATION, new BigDecimal(1455), owner1, property2, "Roof repairs", false);
+				repair3 = new PropertyRepair(LocalDate.of(2022, 12, 6), "Fix apartment", RepairType.PAINTING, new BigDecimal(70), owner2, property3, "Paint walls", false);
 				propertyRepairService.addPropertyRepair(repair1);
 				propertyRepairService.addPropertyRepair(repair2);
 				propertyRepairService.addPropertyRepair(repair3);
