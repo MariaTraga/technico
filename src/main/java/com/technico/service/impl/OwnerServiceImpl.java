@@ -4,26 +4,28 @@ import java.util.List;
 import java.util.Optional;
 
 import com.technico.exception.OwnerException;
+import com.technico.exception.PropertyException;
 import com.technico.model.Owner;
-import com.technico.repository.Repository;
-import com.technico.repository.impl.OwnerRepositoryImpl;
+import com.technico.repository.OwnerRepository;
 import com.technico.service.OwnerService;
 
 
 public class OwnerServiceImpl implements OwnerService{
 
-	private OwnerRepositoryImpl ownerRepository;
+	private OwnerRepository ownerRepository;
 	
-	public OwnerServiceImpl(OwnerRepositoryImpl ownerRepository) {
+	public OwnerServiceImpl(OwnerRepository ownerRepository) {
 		this.ownerRepository = ownerRepository;
 	}
 
+	@Override
 	public void addOwner(Owner owner) throws OwnerException {
 		Optional<Owner> ownerDb = ownerRepository.create(owner);
 		if(ownerDb.isEmpty())
 			throw new OwnerException("The owner has not been saved.");
 	}
 	
+	@Override
 	public Owner updateOwner(Owner owner) throws OwnerException {
 		Optional<Owner> ownerDb = ownerRepository.update(owner);
 		if(ownerDb.isEmpty()) 
@@ -43,6 +45,7 @@ public class OwnerServiceImpl implements OwnerService{
 		return ownerRepository.readAll();
 	}
 	
+	@Override
 	public Owner searchVAT(String in) throws OwnerException{
 		Optional<Owner> ownerDb = ownerRepository.readVAT(in);
 		if (ownerDb.isEmpty())
@@ -51,6 +54,7 @@ public class OwnerServiceImpl implements OwnerService{
 
 	}
 	
+	@Override
 	public Owner searchEmail(String in) throws OwnerException{
 		Optional<Owner> ownerDb = ownerRepository.readEmail(in);
 		if (ownerDb.isEmpty())
@@ -58,13 +62,4 @@ public class OwnerServiceImpl implements OwnerService{
 		return ownerDb.get();
 	}
 	
-	public void updateOwnerAddress(Owner owner) {
-		//TODO
-	}
-	public void updateOwnerEmail(Owner owner) {
-		//TODO
-	}
-	public void updateOwnerPassword(Owner owner) {
-		//TODO
-	}
 }

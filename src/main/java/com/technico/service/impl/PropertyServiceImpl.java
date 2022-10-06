@@ -6,14 +6,15 @@ import java.util.stream.Collectors;
 
 import com.technico.exception.PropertyException;
 import com.technico.model.Property;
+import com.technico.repository.PropertyRepository;
 import com.technico.repository.impl.PropertyRepositoryImpl;
 import com.technico.service.PropertyService;
 
 public class PropertyServiceImpl implements PropertyService {
 
-	private PropertyRepositoryImpl propertyRepository;
+	private PropertyRepository propertyRepository;
 
-	public PropertyServiceImpl(PropertyRepositoryImpl propertyRepository) {
+	public PropertyServiceImpl(PropertyRepository propertyRepository) {
 		this.propertyRepository = propertyRepository;
 	}
 
@@ -53,6 +54,7 @@ public class PropertyServiceImpl implements PropertyService {
 		return deleted;
 	}
 
+	@Override
 	public Property searchById(String input) throws PropertyException {
 		Optional<Property> propertyDb = propertyRepository.readByIdNumber(input);
 		if (propertyDb.isEmpty())
@@ -60,6 +62,7 @@ public class PropertyServiceImpl implements PropertyService {
 		return propertyDb.get();
 	}
 
+	@Override
 	public List<Property> searchByVAT(String input) throws PropertyException {
 		List<Property> listOfProperties = propertyRepository.readByOwnerVAT(input);
 		if (listOfProperties == null || listOfProperties.isEmpty())
@@ -67,6 +70,7 @@ public class PropertyServiceImpl implements PropertyService {
 		return listOfProperties;
 	}
 
+	@Override
 	public boolean deleteSafeProperty(Long id) throws PropertyException {
 		boolean deleted = propertyRepository.deleteSafe(id);
 		if (!deleted)

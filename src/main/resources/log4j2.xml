@@ -31,5 +31,8 @@
 			<AppenderRef ref="ConsoleAppender" />
 			<AppenderRef ref="RollingRandomAccessFileAppender" />
 		</Root>
+		<Logger name="org.hibernate" level="OFF">
+			<AppenderRef ref="ConsoleAppender" />
+		</Logger>
 	</Loggers>
 </Configuration>

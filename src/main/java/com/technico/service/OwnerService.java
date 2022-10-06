@@ -14,5 +14,7 @@ public interface OwnerService {
 	Owner updateOwner(Owner owner) throws OwnerException;
 	void deleteOwner(long id) throws OwnerException;
 	List<Owner> readAllOwners() throws OwnerException;
+	public Owner searchVAT(String in) throws OwnerException;
+	public Owner searchEmail(String in) throws OwnerException;
 
 }

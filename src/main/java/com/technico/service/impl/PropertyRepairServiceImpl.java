@@ -4,17 +4,15 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.technico.exception.PropertyException;
 import com.technico.exception.PropertyRepairException;
-import com.technico.model.Property;
 import com.technico.model.PropertyRepair;
-import com.technico.repository.impl.PropertyRepairRepositoryImpl;
+import com.technico.repository.PropertyRepairRepository;
 import com.technico.service.PropertyRepairService;
 
 public class PropertyRepairServiceImpl implements PropertyRepairService {
-	private PropertyRepairRepositoryImpl propertyRepairRepository;
+	private PropertyRepairRepository propertyRepairRepository;
 
-	public PropertyRepairServiceImpl(PropertyRepairRepositoryImpl propertyRepairRepository) {
+	public PropertyRepairServiceImpl(PropertyRepairRepository propertyRepairRepository) {
 		this.propertyRepairRepository = propertyRepairRepository;
 	}
 
@@ -52,6 +50,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 		return deleted;
 	}
 
+	@Override
 	public List<PropertyRepair> searchByDateBetween(Date d1, Date d2) throws PropertyRepairException {
 		List<PropertyRepair> listOfPropertyRepairs = propertyRepairRepository.readByDateBetween(d1, d2);
 		if (listOfPropertyRepairs.isEmpty())
@@ -59,6 +58,7 @@ public class PropertyRepairServiceImpl implements PropertyRepairService {
 		return listOfPropertyRepairs;
 
 	}
+	@Override
 	public List<PropertyRepair> searchByOwnerId(long id) throws PropertyRepairException{
 		List<PropertyRepair> listOfPropertiesRepairs = propertyRepairRepository.readByOwnerId(id);
 		if (listOfPropertiesRepairs == null || listOfPropertiesRepairs.isEmpty())
