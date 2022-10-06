@@ -107,12 +107,12 @@ public class PropertyRepairServiceImplTest {
 			propertyService.addProperty(property3);
 
 			// add property repairs
-			repair1 = new PropertyRepair(LocalDate.of(2022, 9, 6), "Fix apartment", RepairType.PLUMBING, new BigDecimal(555),
-					owner1, property1, "Bring plumber", false);
+			repair1 = new PropertyRepair(LocalDate.of(2022, 9, 6), "Fix apartment", RepairType.PLUMBING,
+					new BigDecimal(555), owner1, property1, "Bring plumber", false);
 			repair2 = new PropertyRepair(LocalDate.of(2022, 10, 6), "Fix apartment", RepairType.INSULATION,
 					new BigDecimal(1455), owner1, property2, "Roof repairs", false);
-			repair3 = new PropertyRepair(LocalDate.of(2022, 12, 6), "Fix apartment", RepairType.PAINTING, new BigDecimal(70),
-					owner2, property3, "Paint walls", false);
+			repair3 = new PropertyRepair(LocalDate.of(2022, 12, 6), "Fix apartment", RepairType.PAINTING,
+					new BigDecimal(70), owner2, property3, "Paint walls", false);
 			propertyRepairService.addPropertyRepair(repair1);
 			propertyRepairService.addPropertyRepair(repair2);
 			propertyRepairService.addPropertyRepair(repair3);
@@ -180,8 +180,8 @@ public class PropertyRepairServiceImplTest {
 	@DisplayName("Test incorrect view of a single repair.")
 	void viewPropertyRepairError() {
 		assertAll(() -> {
-			PropertyRepair viewedRepair = propertyRepairService.displayPropertyRepair(0l);
-			assertEquals(viewedRepair, null, "Repair was found even though primary key id is incorrect.");
+			assertThrows(PropertyRepairException.class, () -> propertyRepairService.displayPropertyRepair(0l),
+					"Property error not thrown, repair was found even though primary key id is incorrect.");
 		});
 	}
 
@@ -199,24 +199,29 @@ public class PropertyRepairServiceImplTest {
 	void searchByIDNumberError() {
 		assertAll(() -> {
 			assertThrows(PropertyRepairException.class, () -> propertyRepairService.searchByOwnerId(100l),
-					"Property error not thrown, property with incorrect property id number was found."	);
+					"Property error not thrown, property with incorrect property id number was found.");
 		});
 	}
+
 	@Test
 	@DisplayName("Test search repair by between two dates.")
 	void searchByTwoDates() {
 		assertAll(() -> {
-			List<PropertyRepair> searchedrepair = propertyRepairService.searchByDateBetween(LocalDate.of(2022, 9, 6),LocalDate.of(2022, 10, 6));
+			List<PropertyRepair> searchedrepair = propertyRepairService.searchByDateBetween(LocalDate.of(2022, 9, 6),
+					LocalDate.of(2022, 10, 6));
 			assertTrue((searchedrepair).size() > 0, "Repair with these dates cannot be found.");
 		});
-}
+	}
+
 	@Test
 	@DisplayName("Test search repair by between two dates.")
 	void searchByTwoDatesError() {
 		assertAll(() -> {
-			assertThrows(PropertyRepairException.class, () -> propertyRepairService.searchByDateBetween(LocalDate.of(2022, 10, 6),LocalDate.of(2022, 9, 6)),
-					"Property error not thrown, property with incorrect  repair date was found."	);
+			assertThrows(PropertyRepairException.class,
+					() -> propertyRepairService.searchByDateBetween(LocalDate.of(2022, 10, 6),
+							LocalDate.of(2022, 9, 6)),
+					"Property error not thrown, property with incorrect  repair date was found.");
 		});
-}
-	
+	}
+
 }
