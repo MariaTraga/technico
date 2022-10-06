@@ -23,7 +23,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.technico.RenovationApplication;
 import com.technico.enums.PropertyType;
 import com.technico.enums.RepairType;
 import com.technico.exception.OwnerException;
@@ -78,8 +77,7 @@ public class PropertyServiceImplTest {
 
 	@BeforeAll
 	static void initStatic() {
-		String testUnitName = "Test";
-		emf = Persistence.createEntityManagerFactory(testUnitName);
+		emf = Persistence.createEntityManagerFactory(TEST_UNIT_NAME);
 		entityManager = emf.createEntityManager();
 		propertyRepository = new PropertyRepositoryImpl(entityManager);
 		propertyService = new PropertyServiceImpl(propertyRepository);
@@ -143,16 +141,6 @@ public class PropertyServiceImplTest {
 	}
 
 	@Test
-	void testRepo() {
-		assertTrue(propertyRepository != null);
-	}
-
-	@Test
-	void testService() {
-		assertTrue(propertyService != null);
-	}
-
-	@Test
 	@DisplayName("Test database property insertion. This test will fail if duplicate id number.")
 	void saveProperty() {
 		Long propertyIdNumber = Math.round(Math.floor(Math.random() * (999999 - 100000 + 1) + 100000));
@@ -180,7 +168,7 @@ public class PropertyServiceImplTest {
 	@DisplayName("Test view of a single property.")
 	void viewProperty() {
 		assertAll(() -> {
-			Property viewedProperty = propertyService.displayProperty(property1.getId());
+			Property viewedProperty = propertyService.readProperty(property1.getId());
 			assertTrue(viewedProperty.getId() > 0, "Property cannot be found.");
 		});
 	}
@@ -189,8 +177,8 @@ public class PropertyServiceImplTest {
 	@DisplayName("Test incorrect view of a single property.")
 	void viewPropertyError() {
 		assertAll(() -> {
-			Property viewedProperty = propertyService.displayProperty(0l);
-			assertEquals(viewedProperty,null, "Property was found even though primary key id is incorrect.");
+			assertThrows(PropertyException.class, ()->propertyService.readProperty(0l),
+					"Property was found even though primary key id is incorrect.");
 		});
 	}
 	
@@ -199,7 +187,7 @@ public class PropertyServiceImplTest {
 	void viewProperties() {
 		assertAll(() -> {
 			List<Property> viewedPropertiesList = new ArrayList<>();	
-			viewedPropertiesList = propertyService.displayAllProperties();
+			viewedPropertiesList = propertyService.readAllProperties();
 			assertNotEquals(viewedPropertiesList,null, "Property list is null.");
 			assertTrue(viewedPropertiesList.size() > 0, "Property list is empty.");
 		});	
@@ -260,7 +248,7 @@ public class PropertyServiceImplTest {
 	@DisplayName("Test incorrect update function.")
 	void updatePropertyError() {
 		assertAll(() -> {
-			Property searchedProperty = propertyService.displayProperty(property2.getId());
+			Property searchedProperty = propertyService.readProperty(property2.getId());
 			searchedProperty.setPropertyIdNumber(property1.getPropertyIdNumber());
 			assertThrows(PropertyException.class, ()->propertyService.updateProperty(searchedProperty),
 					"Property error not thrown, property was updated with duplicate property Id number.");
@@ -277,7 +265,7 @@ public class PropertyServiceImplTest {
 			Property savedProperty = propertyService.addProperty(safeDeleteProperty);
 			assertTrue(savedProperty.getId() > 0,
 					"Property not saved, duplicate property id number or no owner id present.");
-			Property searchedProperty = propertyService.displayProperty(savedProperty.getId());
+			Property searchedProperty = propertyService.readProperty(savedProperty.getId());
 			
 			boolean deleted = propertyService.deleteSafeProperty(searchedProperty.getId());
 			assertTrue(deleted, "Property was not deleted successfully.");
