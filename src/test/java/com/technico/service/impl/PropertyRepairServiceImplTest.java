@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,11 +107,11 @@ public class PropertyRepairServiceImplTest {
 			propertyService.addProperty(property3);
 
 			// add property repairs
-			repair1 = new PropertyRepair(new Date(122, 9, 6), "Fix apartment", RepairType.PLUMBING, new BigDecimal(555),
+			repair1 = new PropertyRepair(LocalDate.of(2022, 9, 6), "Fix apartment", RepairType.PLUMBING, new BigDecimal(555),
 					owner1, property1, "Bring plumber", false);
-			repair2 = new PropertyRepair(new Date(122, 10, 6), "Fix apartment", RepairType.INSULATION,
+			repair2 = new PropertyRepair(LocalDate.of(2022, 10, 6), "Fix apartment", RepairType.INSULATION,
 					new BigDecimal(1455), owner1, property2, "Roof repairs", false);
-			repair3 = new PropertyRepair(new Date(122, 14, 6), "Fix apartment", RepairType.PAINTING, new BigDecimal(70),
+			repair3 = new PropertyRepair(LocalDate.of(2022, 12, 6), "Fix apartment", RepairType.PAINTING, new BigDecimal(70),
 					owner2, property3, "Paint walls", false);
 			propertyRepairService.addPropertyRepair(repair1);
 			propertyRepairService.addPropertyRepair(repair2);
@@ -197,7 +198,7 @@ public class PropertyRepairServiceImplTest {
 	@DisplayName("Test incorrect search repair by owner id number.")
 	void searchByIDNumberError() {
 		assertAll(() -> {
-			assertThrows(PropertyRepairException.class, () -> propertyRepairService.searchByOwnerId(100),
+			assertThrows(PropertyRepairException.class, () -> propertyRepairService.searchByOwnerId(100l),
 					"Property error not thrown, property with incorrect property id number was found."	);
 		});
 	}
@@ -205,7 +206,7 @@ public class PropertyRepairServiceImplTest {
 	@DisplayName("Test search repair by between two dates.")
 	void searchByTwoDates() {
 		assertAll(() -> {
-			List<PropertyRepair> searchedrepair = propertyRepairService.searchByDateBetween(new Date(122, 9, 6),new Date(122, 10, 6));
+			List<PropertyRepair> searchedrepair = propertyRepairService.searchByDateBetween(LocalDate.of(2022, 9, 6),LocalDate.of(2022, 10, 6));
 			assertTrue((searchedrepair).size() > 0, "Repair with these dates cannot be found.");
 		});
 }
@@ -213,7 +214,7 @@ public class PropertyRepairServiceImplTest {
 	@DisplayName("Test search repair by between two dates.")
 	void searchByTwoDatesError() {
 		assertAll(() -> {
-			assertThrows(PropertyRepairException.class, () -> propertyRepairService.searchByDateBetween(new Date(122, 10, 6),new Date(122, 9, 6)),
+			assertThrows(PropertyRepairException.class, () -> propertyRepairService.searchByDateBetween(LocalDate.of(2022, 10, 6),LocalDate.of(2022, 9, 6)),
 					"Property error not thrown, property with incorrect  repair date was found."	);
 		});
 }

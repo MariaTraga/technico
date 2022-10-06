@@ -1,7 +1,7 @@
 package com.technico.model;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -28,7 +28,7 @@ public class PropertyRepair {
 	private Owner owner;
 	@ManyToOne
 	private Property property;
-	private Date repairDate;
+	private LocalDate repairDate;
 	private String shortDescription;
 	private RepairType repairType;
 	private BigDecimal repairCost;
@@ -45,11 +45,11 @@ public class PropertyRepair {
 		this.id = id;
 	}
 
-	public Date getRepairDate() {
+	public LocalDate getRepairDate() {
 		return repairDate;
 	}
 
-	public void setRepairDate(Date repairDate) {
+	public void setRepairDate(LocalDate repairDate) {
 		this.repairDate = repairDate;
 	}
 
@@ -109,7 +109,7 @@ public class PropertyRepair {
 		this.deleted = deleted;
 	}
 
-	public PropertyRepair(Date repairDate, String shortDescription, RepairType repairType,
+	public PropertyRepair(LocalDate repairDate, String shortDescription, RepairType repairType,
 			BigDecimal repairCost, Owner owner, Property property, String description, boolean deleted) {
 		super();
 		this.repairDate = repairDate;

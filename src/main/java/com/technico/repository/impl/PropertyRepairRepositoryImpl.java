@@ -1,9 +1,8 @@
 package com.technico.repository.impl;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
-import com.technico.model.Property;
 import com.technico.model.PropertyRepair;
 import com.technico.repository.PropertyRepairRepository;
 
@@ -28,17 +27,8 @@ public class PropertyRepairRepositoryImpl extends DBRepositoryImpl<PropertyRepai
 		return PropertyRepair.class;
 	}
 
-	
-	
-	
-	  
-	 
-	/**
-	 * @param d1
-	 * @param d2
-	 * @return
-	 */
-	public List<PropertyRepair> readByDateBetween(Date d1, Date d2) {
+	@Override
+	public List<PropertyRepair> readByDateBetween(LocalDate d1, LocalDate d2) {
 		List<PropertyRepair> propertyRepairList = entityManager
 				.createQuery(
 						"select r from " + getEntityClassName()
@@ -49,6 +39,7 @@ public class PropertyRepairRepositoryImpl extends DBRepositoryImpl<PropertyRepai
 
 	}
 	
+	@Override
 	public List<PropertyRepair> readByOwnerId(long ownerId) {
 		List<PropertyRepair> propertyRepairList = entityManager
 				.createQuery("SELECT r from " + getEntityClassName() + " r WHERE r.owner.id = :ownerId",
