@@ -3,6 +3,7 @@ package com.technico.model;
 
 import java.util.List;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 //import org.hibernate.annotations.SQLDelete;
@@ -15,6 +16,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,10 +36,10 @@ public class Property {
 	private String propertyAddress;
 	private String yearOfConstruction;
 	private boolean deleted;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Owner owner;
 
-	@OneToMany(mappedBy = "property", cascade = {CascadeType.REMOVE}, orphanRemoval = true)
+	@OneToMany(mappedBy = "property")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<PropertyRepair> repairs;
 	
@@ -122,7 +124,7 @@ public class Property {
 	@Override
 	public String toString() {
 		return "Property [id=" + id + ", propertyIdNumber=" + propertyIdNumber + ", propertyAddress=" + propertyAddress
-				+ ", yearOfConstruction=" + yearOfConstruction + ", owner=" + owner	+ ", propertyType=" + propertyType + "]";
+				+ ", yearOfConstruction=" + yearOfConstruction + ", ownerId=" + owner.getId()	+ ", propertyType=" + propertyType + "]";
 	}
 
 	public List<PropertyRepair> getRepairs() {

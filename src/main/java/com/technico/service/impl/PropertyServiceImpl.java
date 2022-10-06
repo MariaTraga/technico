@@ -2,16 +2,17 @@ package com.technico.service.impl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.technico.exception.PropertyException;
 import com.technico.model.Property;
 import com.technico.repository.PropertyRepository;
-import com.technico.repository.impl.PropertyRepositoryImpl;
 import com.technico.service.PropertyService;
 
 public class PropertyServiceImpl implements PropertyService {
 
+	private static final Logger logger = LoggerFactory.getLogger(PropertyServiceImpl.class);
+	
 	private PropertyRepository propertyRepository;
 
 	public PropertyServiceImpl(PropertyRepository propertyRepository) {
@@ -28,14 +29,23 @@ public class PropertyServiceImpl implements PropertyService {
 	}
 
 	@Override
-	public List<Property> displayAllProperties() {
+	public List<Property> readAllProperties() throws PropertyException {
 		List<Property> list = propertyRepository.readAll();
-		return propertyRepository.readAll();
+		for (Property p : list) {
+			if (p.getOwner().isDeleted())
+				logger.info("DELETEDDDD");
+		}
+		if (list == null || list.isEmpty())
+			throw new PropertyException("The list of properties cannot be read.");
+		return list;
 	}
 
 	@Override
-	public Property displayProperty(Long id) throws PropertyException {
-		return propertyRepository.read(id).orElse(null);
+	public Property readProperty(Long id) throws PropertyException {
+		Property property = propertyRepository.read(id).orElse(null);
+		if(property == null)
+			throw new PropertyException("The property cannot be found.");
+		return property;
 	}
 
 	@Override

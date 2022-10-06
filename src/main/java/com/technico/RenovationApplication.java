@@ -49,10 +49,27 @@ public class RenovationApplication {
 		PropertyRepairRepository propertyRepairRepository = new PropertyRepairRepositoryImpl(entityManager);
 		PropertyRepairService propertyRepairService = new PropertyRepairServiceImpl(propertyRepairRepository);
 
-		//DEMONSTRATION FUNCTIONS
+		// DEMONSTRATION FUNCTIONS
 		addDataToDB(ownerService, propertyService, propertyRepairService);
+
 		updatePropertyFromDB(ownerService, 1l);
 		//deleteAllOwnersFromDB(ownerService, propertyService, propertyRepairService);
+
+
+		deleteAllOwnersFromDB(ownerService, propertyService, propertyRepairService);
+		
+		
+		//PROPERTY
+		readAllPropertiesFromDB(propertyService);
+		//deleteAllPropertiesFromDBSafe(propertyService);
+		//deleteAllPropertiesFromDBPermanent(propertyService);
+		readPropertyFromDB(propertyService,2l);
+		updatePropertyFromDB(propertyService,1l);
+		
+
+		//deleteAllOwnersFromDB(ownerService, propertyService, propertyRepairService);
+		searchByIDNumber(propertyRepairService);
+
 		///////
 		JpaUtil.shutdown();
 	}
@@ -78,11 +95,15 @@ public class RenovationApplication {
 
 			// add properties
 			Property property1 = new Property("123857", "Athens", "2003", PropertyType.APARTMENT, owner1, false);
-			Property property2 = new Property("123858", "Athens", "2003", PropertyType.APARTMENT, owner1, false);
-			Property property3 = new Property("123859", "Athens", "2003", PropertyType.APARTMENT, owner2, false);
+			Property property2 = new Property("123858", "Athens", "2008", PropertyType.MAISONETTE, owner1, false);
+			Property property3 = new Property("123859", "Kavala", "2012", PropertyType.DETACHED, owner2, false);
+			Property property4 = new Property("123860", "Patra", "2020", PropertyType.MAISONETTE, owner3, false);
+			Property property5 = new Property("123862", "Thessaloniki", "2005", PropertyType.APARTMENT, owner4, false);
 			ps.addProperty(property1);
 			ps.addProperty(property2);
 			ps.addProperty(property3);
+			ps.addProperty(property4);
+			ps.addProperty(property5);
 
 			// add property repairs
 			PropertyRepair repair1 = new PropertyRepair(new Date(122, 9, 6), "Fix apartment", RepairType.PLUMBING,
@@ -91,12 +112,15 @@ public class RenovationApplication {
 					new BigDecimal(1455), owner1, property2, "Roof repairs", false);
 			PropertyRepair repair3 = new PropertyRepair(new Date(122, 14, 6), "Fix apartment", RepairType.PAINTING,
 					new BigDecimal(70), owner2, property3, "Paint walls", false);
+			PropertyRepair repair4 = new PropertyRepair(new Date(122, 14, 6), "Fix apartment", RepairType.FRAMES,
+					new BigDecimal(155), owner3, property3, "Paint walls", false);
+
 			prs.addPropertyRepair(repair1);
 			prs.addPropertyRepair(repair2);
 			prs.addPropertyRepair(repair3);
+			prs.addPropertyRepair(repair4);
 			
 			
-
 		} catch (OwnerException e) {
 			logger.error("================================>");
 			logger.error("Something went wrong. Details: {}", e.getMessage(), e);
@@ -111,12 +135,11 @@ public class RenovationApplication {
 			logger.error("<================================");
 		}
 	}
-	
+
 	// retrieve owners
 	public static void readAllOwnersFromDB(OwnerService os, PropertyService ps, PropertyRepairService prs) {
 
-		try {
-			
+		try {			
 			for (Owner owner : os.showAllOwners()) {
 				logger.info(owner.toString());
 			}
@@ -131,6 +154,7 @@ public class RenovationApplication {
 	// remove all entries through cascade
 	public static void deleteAllOwnersFromDB(OwnerService os, PropertyService ps, PropertyRepairService prs) {
 
+
 		try {		
 			for (Owner owner : os.showAllOwners()) {
 				logger.info("================================>Deleting owner with id: " + owner.getId());
@@ -144,8 +168,9 @@ public class RenovationApplication {
 		}
 	}
 
+
 	//update owners
-	public static void updatePropertyFromDB(OwnerService os, long id) {
+	public static void updateOwnerFromDB(OwnerService os, long id) {
 		try {
 
 		Owner owner = os.showOwner(1l);
@@ -168,29 +193,121 @@ public class RenovationApplication {
 		}
 	}
 	
+	// PROPERTY
+
+	public static void readAllPropertiesFromDB(PropertyService ps) {
+
+		try {
+
+			for (Property property : ps.readAllProperties()) {
+				logger.info(property.toString());
+			}
+
+		} catch (PropertyException e) {
+			logger.error("================================>");
+			logger.error("Something went wrong. Details: {}", e.getMessage(), e);
+			logger.error("<================================");
+		}
+	}
+
+	public static void deleteAllPropertiesFromDBPermanent(PropertyService ps) {
+
+		try {
+			for (Property property : ps.readAllProperties()) {
+				logger.info("================================> Deleting property with id: " + property.getId());
+				ps.deleteProperty(property.getId());
+			}
+
+		} catch (PropertyException e) {
+			logger.error("================================>");
+			logger.error("Something went wrong. Details: {}", e.getMessage(), e);
+			logger.error("<================================");
+		}
+	}
+
+	public static void deleteAllPropertiesFromDBSafe(PropertyService ps) {
+
+		try {
+			for (Property property : ps.readAllProperties()) {
+				logger.info("================================> Deleting property with id: " + property.getId());
+				ps.deleteSafeProperty(property.getId());
+			}
+
+		} catch (PropertyException e) {
+			logger.error("================================>");
+			logger.error("Something went wrong. Details: {}", e.getMessage(), e);
+			logger.error("<================================");
+		}
+	}
+	
+	public static void readPropertyFromDB(PropertyService ps,long id) {
+		
+		try {
+			logger.info("*************************************");
+			logger.info("Property Found: {}",ps.readProperty(id).toString());
+			logger.info("*************************************");
+		} catch (PropertyException e) {
+			logger.error("================================>");
+			logger.error("Something went wrong. Details: {}", e.getMessage(), e);
+			logger.error("<================================");
+		}
+		
+	}
+	
 	public static void updatePropertyFromDB(PropertyService ps,long id) {
-        try {
+		try {
 
+			Property property = ps.readProperty(id);
+			logger.info("*************************************");
+			logger.info("Property Before Update: {}",property.toString());
+			property.setPropertyAddress("NEW-ADDRESS");
+			//property.setPropertyIdNumber("123858");
+			property.setPropertyIdNumber("121212");
+			property.setPropertyType(PropertyType.DETACHED);
+			property.setYearOfConstruction("2021");
+			ps.updateProperty(property);
+			
+			logger.info("Property After Update: {}",ps.readProperty(id).toString());
+			logger.info("*************************************");
 
+		} catch (PropertyException e) {
+			logger.error("================================>");
+			logger.error("Something went wrong. Details: {}", e.getMessage(), e);
+			logger.error("<================================");
+		}
+	}
+	
+	public static void updatePropertyOwnerFromDB(PropertyService ps,Owner owner,long id) {
+		try {
 
-           Property property = ps.displayProperty(1l);
-            logger.info("*************************************");
-            logger.info("Property Before Update: {}",property.toString());
-            property.setPropertyAddress("NEW-ADDRESS");
-            property.setPropertyIdNumber("121212");
-            property.setPropertyType(PropertyType.DETACHED);
-            property.setYearOfConstruction("2021");
-            ps.updateProperty(property);
-            
-            logger.info("Property After Update: {}",ps.displayProperty(1l).toString());
-            logger.info("*************************************");
+			Property property = ps.readProperty(id);
+			logger.info("*************************************");
+			logger.info("Property Before Update: {}",property.toString());
+			property.setOwner(owner);
+			ps.updateProperty(property);
+			
+			logger.info("Property After Update With New Owner: {}",ps.readProperty(id).toString());
+			logger.info("*************************************");
 
+		} catch (PropertyException e) {
+      logger.error("================================>");
+			logger.error("Something went wrong. Details: {}", e.getMessage(), e);
+			logger.error("<================================");
+		}
 
+	public static void searchByIDNumber(PropertyRepairService prs) {
 
-       } catch (PropertyException e) {
-            logger.error("================================>");
-            logger.error("Something went wrong. Details: {}", e.getMessage(), e);
-            logger.error("<================================");
-        }
+		try {
+
+			//prs.searchByOwnerId(1L);
+			prs.searchByDateBetween(new Date(122, 14, 6), new Date(122, 14, 6));
+
+		} catch (PropertyRepairException e) {
+			logger.error("================================>");
+			logger.error("Something went wrong. Details: {}", e.getMessage(), e);
+			logger.error("<================================");
+		}
+	}
+       
     }
 }
