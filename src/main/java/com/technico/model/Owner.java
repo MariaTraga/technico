@@ -37,11 +37,11 @@ public class Owner {
 	private String password;
 	private boolean deleted;
 
-	@OneToMany(mappedBy = "owner", cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	@OneToMany(mappedBy = "owner")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Property> property = new ArrayList<>();
 
-	@OneToMany(mappedBy = "owner", cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	@OneToMany(mappedBy = "owner")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<PropertyRepair> propertyRepairs = new ArrayList<>();
 
